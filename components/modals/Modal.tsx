@@ -30,7 +30,7 @@ export default function Modal({
   }
 
   return (
-    <div className="absolute left-0 top-0 z-50 h-screen w-screen">
+    <div className="fixed left-0 top-0 z-50 h-screen w-screen">
       <div
         className={`h-screen w-screen ${
           showModal ? "bg-modal" : "bg-modal/0"

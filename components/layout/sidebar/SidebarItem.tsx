@@ -27,11 +27,11 @@ export default function SideBarItem({
     p-4
     duration-200
     hover:bg-slate-300/20 
-    lg:w-fit
-  lg:justify-start"
+    xl:w-fit
+  xl:justify-start"
       >
         <Icon size={28} color="white" />{" "}
-        <p className="hidden pr-3 text-xl lg:block">{name}</p>
+        <p className="hidden pr-3 text-xl xl:block">{name}</p>
       </div>
     </Link>
   );

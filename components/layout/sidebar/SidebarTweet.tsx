@@ -5,10 +5,10 @@ export default function SidebarTweet() {
   return (
     <div
       onClick={toggleModal}
-      className="mt-5 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-blue-500 duration-200 hover:bg-blue-500/90 lg:w-full"
+      className="mt-5 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full bg-blue-500 duration-200 hover:bg-blue-500/90 xl:w-full"
     >
-      <span className="hidden text-xl lg:block">Tweet</span>
-      <FaFeatherAlt size={25} color="white" className="block lg:hidden" />
+      <span className="hidden text-xl xl:block">Tweet</span>
+      <FaFeatherAlt size={25} color="white" className="block xl:hidden" />
     </div>
   );
 }
