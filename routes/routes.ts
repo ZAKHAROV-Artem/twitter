@@ -13,7 +13,7 @@ interface Route {
 }
 
 export const HOME = "/";
-export const NOTIFICATIONS = "/notofications";
+export const NOTIFICATIONS = "/notifications";
 export const PROFILE = "/profile";
 
 export const menuRoutes: Route[] = [

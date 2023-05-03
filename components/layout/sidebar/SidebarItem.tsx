@@ -1,14 +1,20 @@
+import Link from "next/link";
 import { IconType } from "react-icons";
 
-interface SideBarItem {
+interface SideBarItemProps {
   name: string;
   path: string;
   icon: IconType;
 }
-export default function SideBarItem({ name, path, icon: Icon }: SideBarItem) {
+export default function SideBarItem({
+  name,
+  path,
+  icon: Icon,
+}: SideBarItemProps) {
   return (
-    <div
-      className="
+    <Link href={path}>
+      <div
+        className="
       relative
     flex 
     h-14
@@ -21,11 +27,12 @@ export default function SideBarItem({ name, path, icon: Icon }: SideBarItem) {
     p-4
     duration-200
     hover:bg-slate-300/20 
-    lg:w-full
+    lg:w-fit
   lg:justify-start"
-    >
-      <Icon size={28} color="white" />{" "}
-      <p className="hidden text-xl lg:block">{name}</p>
-    </div>
+      >
+        <Icon size={28} color="white" />{" "}
+        <p className="hidden pr-3 text-xl lg:block">{name}</p>
+      </div>
+    </Link>
   );
 }
