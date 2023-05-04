@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { useRouter } from "next/router";
 import { IconType } from "react-icons";
 
 interface SideBarItemProps {
@@ -11,10 +11,11 @@ export default function SideBarItem({
   path,
   icon: Icon,
 }: SideBarItemProps) {
+  const router = useRouter();
   return (
-    <Link href={path}>
-      <div
-        className="
+    <div
+      onClick={() => router.push(path)}
+      className="
       relative
     flex 
     h-14
@@ -29,10 +30,9 @@ export default function SideBarItem({
     hover:bg-slate-300/20 
     xl:w-fit
   xl:justify-start"
-      >
-        <Icon size={28} color="white" />{" "}
-        <p className="hidden pr-3 text-xl xl:block">{name}</p>
-      </div>
-    </Link>
+    >
+      <Icon size={28} color="white" />{" "}
+      <p className="hidden pr-3 text-xl xl:block">{name}</p>
+    </div>
   );
 }
