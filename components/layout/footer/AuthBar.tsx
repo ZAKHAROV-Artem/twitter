@@ -1,9 +1,9 @@
 import Button from "@/components/inputs/Button";
-import useLoginModal from "@/state/LoginModalState";
+import useSignInModal from "@/state/SignInModalState";
 import useRegisterModal from "@/state/RegisterModalState";
 
 export default function AuthBar() {
-  const toggleLoginModal = useLoginModal((state) => state.toggleModal);
+  const toggleSignInModal = useSignInModal((state) => state.toggleModal);
   const toggleRegisterModal = useRegisterModal((state) => state.toggleModal);
   return (
     <div className="fixed bottom-0 left-0  h-16 w-full  bg-blue-500 text-white">
@@ -16,8 +16,8 @@ export default function AuthBar() {
         <div className="flex w-full items-center gap-x-3 sm:w-fit">
           <Button
             className="w-full"
-            onClick={toggleLoginModal}
-            text="Log in"
+            onClick={toggleSignInModal}
+            text="Sign in"
             type="outlined"
           />
           <Button

@@ -7,7 +7,7 @@ type State = {
 type Actions = {
   toggleModal: () => void;
 };
-const useLoginModal = create(
+const useSignInModal = create(
   immer<State & Actions>((set) => ({
     isOpen: false,
     toggleModal: () =>
@@ -17,4 +17,4 @@ const useLoginModal = create(
   }))
 );
 
-export default useLoginModal;
+export default useSignInModal;
