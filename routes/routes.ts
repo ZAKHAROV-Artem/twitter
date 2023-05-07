@@ -16,7 +16,7 @@ export const HOME = "/";
 export const NOTIFICATIONS = "/notifications";
 export const PROFILE = "/profile";
 
-export const menuRoutes: Route[] = [
+export const menuAuthRoutes: Route[] = [
   {
     name: "Home",
     path: HOME,
@@ -24,4 +24,12 @@ export const menuRoutes: Route[] = [
   },
   { name: "Notifications", path: NOTIFICATIONS, icon: AiFillBell },
   { name: "Profile", path: PROFILE, icon: AiOutlineUser },
+];
+
+export const menuPublicRoutes: Route[] = [
+  {
+    name: "Home",
+    path: HOME,
+    icon: AiFillHome,
+  },
 ];

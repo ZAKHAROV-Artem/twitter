@@ -6,8 +6,12 @@ import GoogleLoginButton from "../inputs/GoogleLoginButon";
 import Divider from "../data-display/Divider";
 import Button from "../inputs/Button";
 import Input from "../inputs/Input";
+import { signIn } from "next-auth/react";
+import toast from "react-hot-toast";
+import { useState } from "react";
 
 export default function SignInModal() {
+  const [loading, setLoading] = useState<boolean>(false);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -15,8 +19,16 @@ export default function SignInModal() {
     },
     validateOnBlur: true,
     validationSchema: loginFormValidationSchema,
-    onSubmit: (values, actions) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      setLoading(true);
+      await signIn("credentials", values)
+        .then(() => {
+          toast.success("Successfully sign in!");
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+        });
     },
   });
   const signInModal = useSignInModal();
@@ -64,6 +76,7 @@ export default function SignInModal() {
   return (
     <Modal
       body={body}
+      loading={loading}
       toggleModal={signInModal.toggleModal}
       isOpen={signInModal.isOpen}
     />

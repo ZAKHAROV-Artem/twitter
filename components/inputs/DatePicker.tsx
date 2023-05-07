@@ -1,3 +1,4 @@
+import { LegacyRef, forwardRef } from "react";
 import DP, { ReactDatePickerProps } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -8,25 +9,30 @@ interface DatePickerProps extends ReactDatePickerProps {
   onChange: any;
 }
 
-function CustomInput({
-  value,
-  onClick,
-  onChange,
-}: {
-  value?: string;
-  onClick?: () => void;
-  onChange?: () => void;
-}) {
-  return (
+const CustomInput = forwardRef(
+  (
+    {
+      value,
+      onClick,
+      onChange,
+    }: {
+      value?: string;
+      onClick?: () => void;
+      onChange?: () => void;
+    },
+    ref: LegacyRef<HTMLInputElement>
+  ) => (
     <input
       type="text"
       className="w-full rounded-xl border-2 bg-transparent px-3 py-2"
       onClick={onClick}
       onChange={onChange}
       value={value}
+      ref={ref}
     />
-  );
-}
+  )
+);
+CustomInput.displayName = "CustomInput";
 
 export default function DatePicker({
   name,
@@ -35,11 +41,14 @@ export default function DatePicker({
   ...rest
 }: DatePickerProps) {
   return (
-    <DP
-      name={name}
-      {...rest}
-      onChange={(date) => onChange(name, date)}
-      customInput={<CustomInput />}
-    />
+    <div>
+      <div className="mb-1 ml-1">Select you birth date</div>
+      <DP
+        name={name}
+        {...rest}
+        onChange={(date) => onChange(name, date)}
+        customInput={<CustomInput />}
+      />
+    </div>
   );
 }

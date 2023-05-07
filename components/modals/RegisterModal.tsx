@@ -7,18 +7,38 @@ import Button from "../inputs/Button";
 import DatePicker from "../inputs/DatePicker";
 import Divider from "../data-display/Divider";
 import GoogleLoginButton from "../inputs/GoogleLoginButon";
+import axios from "axios";
+import { signIn } from "next-auth/react";
+import toast from "react-hot-toast";
+import { useState } from "react";
 
 export default function RegisterModal() {
+  const [loading, setLoading] = useState<boolean>(false);
   const formik = useFormik({
     initialValues: {
       name: "",
       email: "",
+      username: "",
       birthDate: new Date(),
+      password: "",
     },
     validateOnBlur: true,
     validationSchema: registerFormValidationSchema,
-    onSubmit: (values, actions) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values, actions) => {
+      setLoading(true);
+      await axios
+        .post("/api/registration", values)
+        .then(() => {
+          toast.success("Account created successfully !");
+          signIn("credentials", {
+            email: values.email,
+            password: values.password,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+        });
     },
   });
   const regModal = useRegisterModal();
@@ -47,6 +67,16 @@ export default function RegisterModal() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             error={(formik.touched.email && formik.errors.email) || ""}
+          />{" "}
+          <Input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="username"
+            value={formik.values.username}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={(formik.touched.username && formik.errors.username) || ""}
           />
           <DatePicker
             id="birthDate"
@@ -55,6 +85,16 @@ export default function RegisterModal() {
             onChange={formik.setFieldValue}
             maxDate={new Date()}
             dateFormat="yyyy/MM/dd"
+          />{" "}
+          <Input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={(formik.touched.password && formik.errors.password) || ""}
           />
         </div>
         <div className="flex justify-end">
@@ -75,6 +115,7 @@ export default function RegisterModal() {
   return (
     <Modal
       body={body}
+      loading={loading}
       toggleModal={regModal.toggleModal}
       isOpen={regModal.isOpen}
     />

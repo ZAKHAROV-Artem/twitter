@@ -1,20 +1,27 @@
 import { useRouter } from "next/router";
+import { useCallback } from "react";
 import { IconType } from "react-icons";
 
 interface SideBarItemProps {
   name: string;
   path: string;
   icon: IconType;
+  onClick?: any;
 }
 export default function SideBarItem({
   name,
   path,
   icon: Icon,
+  onClick,
 }: SideBarItemProps) {
   const router = useRouter();
+  const handleClick = useCallback(() => {
+    if (onClick) onClick();
+    router.push(path);
+  }, [router, onClick, path]);
   return (
     <div
-      onClick={() => router.push(path)}
+      onClick={handleClick}
       className="
       relative
     flex 
