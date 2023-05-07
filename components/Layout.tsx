@@ -7,9 +7,6 @@ interface Layout {
   children: JSX.Element;
 }
 export default function Layout({ children }: Layout) {
-  const { data: user, isLoading } = useCurrentUser();
-
-  if (isLoading) return null;
   return (
     <div className="h-screen bg-black">
       <div className="xl:px-30 container mx-auto h-full max-w-6xl">
@@ -21,7 +18,7 @@ export default function Layout({ children }: Layout) {
           <SuggestBar />
         </div>
       </div>
-      {!user && <AuthBar />}
+      <AuthBar />
     </div>
   );
 }
