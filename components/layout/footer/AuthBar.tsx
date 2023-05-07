@@ -1,16 +1,11 @@
 import Button from "@/components/inputs/Button";
 import useSignInModal from "@/state/SignInModalState";
 import useRegisterModal from "@/state/RegisterModalState";
-import useCurrentUser from "@/hooks/useCurrentUser";
-import { useEffect } from "react";
-import { signOut } from "next-auth/react";
 
 export default function AuthBar() {
-  const { data: user, isLoading } = useCurrentUser();
   const toggleSignInModal = useSignInModal((state) => state.toggleModal);
   const toggleRegisterModal = useRegisterModal((state) => state.toggleModal);
 
-  if (isLoading || user) return null;
   return (
     <div className="fixed bottom-0 left-0  h-16 w-full  bg-blue-500 text-white">
       <div className="mx-auto flex h-full max-w-5xl items-center justify-between px-5">

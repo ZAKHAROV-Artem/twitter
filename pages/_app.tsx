@@ -7,25 +7,24 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
 import useCurrentUser from "@/hooks/useCurrentUser";
-
+import localFont from "next/font/local";
+const twitter = localFont({ src: "../public/fonts/Twitter.woff2" });
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
-  const { data: user } = useCurrentUser();
   return (
-    <SessionProvider session={session}>
-      <TweetModal />
-      {!user && (
-        <>
-          <SignInModal />
-          <RegisterModal />
-        </>
-      )}
-      <Toaster />
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </SessionProvider>
+    <div className={twitter.className}>
+      <SessionProvider session={session}>
+        <TweetModal />
+        <SignInModal />
+        <RegisterModal />
+
+        <Toaster />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </SessionProvider>
+    </div>
   );
 }

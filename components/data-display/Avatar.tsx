@@ -1,15 +1,16 @@
 interface AvatarProps {
   name: String;
   size?: "sm" | "md" | "lg";
+  className?: string;
 }
-export default function Avatar({ name, size = "md" }: AvatarProps) {
+export default function Avatar({ name, size = "md", className }: AvatarProps) {
   return (
     <div
-      className={`flex ${size === "sm" && "h-12 w-12"} ${
-        size === "md" && "h-14 w-14"
-      } ${
-        size === "lg" && "h-16 w-16"
-      } items-center justify-center rounded-full bg-gray-300 text-xl`}
+      className={`flex  items-center justify-center rounded-full bg-gray-300 text-xl text-white 
+      ${size === "sm" && "h-12 w-12"}
+      ${size === "md" && "h-14 w-14"} 
+      ${size === "lg" && "h-32 w-32 text-4xl"} 
+      ${className}`}
     >
       {name.split(" ").length > 1
         ? name.split(" ")[0][0] + name.split(" ")[1][0]
