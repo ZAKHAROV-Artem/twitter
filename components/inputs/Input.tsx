@@ -9,8 +9,9 @@ interface InputProps {
   error?: string;
   value: string;
   onChange: any;
-  onBlur: any;
-  max?: string;
+  onBlur?: any;
+  maxLength?: number;
+  className?: string;
 }
 export default function Input({
   type,
@@ -20,25 +21,26 @@ export default function Input({
   label,
   error,
   value,
-  max,
+  maxLength,
   onChange,
   onBlur,
+  className,
 }: InputProps) {
   const [visible, setVisible] = useState<boolean>(false);
   if (type === "password") {
     return (
       <div>
         <div
-          className="
-        flex
-        w-full  
+          className={`
+        flex    
+        w-full 
         items-center
         gap-x-3
         rounded-xl
         border-2
         px-3
       py-3  text-white 
-      focus:border-blue-500"
+      focus:border-blue-500 `}
         >
           <input
             type={visible ? "text" : "password"}
@@ -48,12 +50,12 @@ export default function Input({
             value={value}
             onChange={onChange}
             onBlur={onBlur}
+            maxLength={maxLength}
             className={`
           w-full  
           bg-transparent 
-          outline-none
+          outline-none 
         `}
-            max={max}
           />
           <div onClick={() => setVisible(!visible)}>
             {visible ? (
@@ -77,6 +79,7 @@ export default function Input({
           value={value}
           onChange={onChange}
           onBlur={onBlur}
+          maxLength={maxLength}
           className={`
           w-full
           rounded-xl
@@ -86,9 +89,8 @@ export default function Input({
           py-3
           text-white
           outline-none
-          focus:border-blue-500
+          focus:border-blue-500  ${className}
         `}
-          max={max}
         />
         <div className="ml-3 h-4 text-red-500">{error}</div>
       </div>

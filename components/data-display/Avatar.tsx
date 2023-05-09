@@ -6,9 +6,9 @@ interface AvatarProps {
 export default function Avatar({ name, size = "md", className }: AvatarProps) {
   return (
     <div
-      className={`flex  items-center justify-center rounded-full bg-gray-300 text-xl text-white 
-      ${size === "sm" && "h-12 w-12"}
-      ${size === "md" && "h-14 w-14"} 
+      className={`flex  items-center justify-center rounded-full bg-gray-300  text-white 
+      ${size === "sm" && "h-12 w-12 text-sm"}
+      ${size === "md" && "h-14 w-14 text-xl"} 
       ${size === "lg" && "h-32 w-32 text-4xl"} 
       ${className}`}
     >

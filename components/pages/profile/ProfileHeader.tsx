@@ -5,6 +5,7 @@ import { SlLocationPin } from "react-icons/sl";
 import { AiOutlineLink, AiOutlineCalendar } from "react-icons/ai";
 import Header from "@/components/layout/header/Header";
 import useCurrentUser from "@/hooks/useCurrentUser";
+import useEditProfileModal from "@/state/EditProfileModalState";
 
 const monthNames = [
   "January",
@@ -20,9 +21,18 @@ const monthNames = [
   "November",
   "December",
 ];
+
+function extractRootDomain(url: string) {
+  var a = document.createElement("a");
+  a.href = url;
+  return a.hostname;
+}
+
 export default function ProfileHeader() {
   const { data: user } = useCurrentUser();
   const date = new Date(user?.createdAt as Date);
+  const toggleModal = useEditProfileModal((state) => state.toggleModal);
+
   return (
     <div>
       <Header text="Profile" />
@@ -39,7 +49,12 @@ export default function ProfileHeader() {
           className="absolute bottom-0 mx-5 border-4 border-black"
         />
         <div className="mt-3 flex w-full justify-end pr-3">
-          <Button text="Edit profile" type="outlined" className="font-bold" />
+          <Button
+            onClick={toggleModal}
+            text="Edit profile"
+            type="outlined"
+            className="font-bold"
+          />
         </div>
       </div>
       <div className="mx-3 mt-5 flex flex-col gap-y-3">
@@ -51,11 +66,13 @@ export default function ProfileHeader() {
         <div className="flex flex-wrap gap-x-2 gap-y-1">
           <div className="flex items-center gap-x-1 text-app-gray">
             <SlLocationPin size={20} />
-            <span>Ukraine</span>
+            <span>{user?.location}</span>
           </div>
           <div className="flex items-center gap-x-1 text-app-gray">
             <AiOutlineLink size={20} />
-            <span className="text-blue-400">zakharov-artem.vercel.app</span>
+            <span className="text-blue-400">
+              {extractRootDomain(user?.site || "")}
+            </span>
           </div>
           <div className="flex items-center gap-x-1 text-app-gray">
             <AiOutlineCalendar size={20} />

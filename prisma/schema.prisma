@@ -16,6 +16,8 @@ model User {
   email           String? @unique
   username        String? @unique  
   bio             String?
+  location        String?
+  site            String?
   emailVerified   DateTime?
   image           String?
   profileImage    String?
