@@ -15,8 +15,6 @@ export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
-  const { isLoading } = useCurrentUser();
-  if (isLoading) return null;
   return (
     <div className={twitter.className}>
       <SessionProvider session={session}>

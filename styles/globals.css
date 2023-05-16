@@ -9,15 +9,15 @@ body {
   @apply h-full bg-black;
 }
 
-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
   width: 5px;
 }
 
-body::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   @apply bg-app-gray;
   border-radius: 3px;
 }
-body::-webkit-scrollbar-thumb:hover {
+*::-webkit-scrollbar-thumb:hover {
   @apply bg-gray-400;
   border-radius: 3px;
 }

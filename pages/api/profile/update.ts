@@ -4,6 +4,13 @@ import prisma from "@/libs/prismadb";
 import ApiError from "@/error/ApiError";
 import handleError from "@/error/handleError";
 
+export const config = {
+  api: {
+      bodyParser: {
+          sizeLimit: '4mb' // Set desired value here
+      }
+  }
+}
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -15,10 +22,17 @@ export default async function handler(
   try {
     const { currentUser } = await serverAuth(req, res);
     if (!currentUser) throw ApiError.isNotAuth("Not authenticated");
-    const { name, bio, location, site } = req.body;
-
-    if (!name || !bio || !location || !site)
+    const { name, bio, location, site, profileImage, coverImage } = req.body;
+    if (
+      name === undefined ||
+      bio === undefined ||
+      location === undefined ||
+      site === undefined ||
+      profileImage === undefined ||
+      coverImage === undefined
+    )
       throw ApiError.badRequest("No data");
+
     const user = await prisma.user.update({
       where: {
         email: currentUser.email as string,
@@ -28,6 +42,8 @@ export default async function handler(
         bio,
         location,
         site,
+        profileImage,
+        coverImage,
       },
     });
 

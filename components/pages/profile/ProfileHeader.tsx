@@ -6,6 +6,7 @@ import { AiOutlineLink, AiOutlineCalendar } from "react-icons/ai";
 import Header from "@/components/layout/header/Header";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import useEditProfileModal from "@/state/EditProfileModalState";
+import Link from "next/link";
 
 const monthNames = [
   "January",
@@ -38,13 +39,20 @@ export default function ProfileHeader() {
       <Header text="Profile" />
       <div className="relative h-[270px]">
         {user?.coverImage ? (
-          <Image src={user.coverImage} alt="Profile cover" />
+          <Image
+            src={user.coverImage}
+            width={160}
+            height={90}
+            className="h-52 w-full object-cover"
+            alt="Profile cover"
+          />
         ) : (
           <div className="h-52 w-full bg-gray-300/30" />
         )}
 
         <Avatar
           size="lg"
+          src={user?.profileImage || user?.image || ""}
           name={user?.name || ""}
           className="absolute bottom-0 mx-5 border-4 border-black"
         />
@@ -64,16 +72,22 @@ export default function ProfileHeader() {
         </div>
         {user?.bio?.length && <div className="text-white">{user?.bio}</div>}
         <div className="flex flex-wrap gap-x-2 gap-y-1">
-          <div className="flex items-center gap-x-1 text-app-gray">
-            <SlLocationPin size={20} />
-            <span>{user?.location}</span>
-          </div>
-          <div className="flex items-center gap-x-1 text-app-gray">
-            <AiOutlineLink size={20} />
-            <span className="text-blue-400">
-              {extractRootDomain(user?.site || "")}
-            </span>
-          </div>
+          {user?.location && (
+            <div className="flex items-center gap-x-1 text-app-gray">
+              <SlLocationPin size={20} />
+              <span>{user?.location}</span>
+            </div>
+          )}
+          {user?.site && (
+            <div className="flex items-center gap-x-1 text-app-gray">
+              <AiOutlineLink size={20} />
+              <span className="text-blue-400">
+                <Link href={user?.site || ""} target="_blank">
+                  {extractRootDomain(user?.site || "")}
+                </Link>
+              </span>
+            </div>
+          )}
           <div className="flex items-center gap-x-1 text-app-gray">
             <AiOutlineCalendar size={20} />
             <span>

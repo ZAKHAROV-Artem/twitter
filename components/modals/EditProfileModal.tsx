@@ -9,7 +9,7 @@ import Button from "../inputs/Button";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
-import { User } from "@prisma/client";
+import FileUpload from "./../inputs/FileUpload";
 
 const isValidUrl = (urlString: string) => {
   const inputElement = document.createElement("input");
@@ -24,7 +24,6 @@ const isValidUrl = (urlString: string) => {
 };
 export default function EditProfileModal() {
   const [loading, setLoading] = useState<boolean>(false);
-
   const editModal = useEditProfileModal();
   const { data: user } = useCurrentUser();
 
@@ -34,30 +33,52 @@ export default function EditProfileModal() {
       bio: user?.bio || "",
       location: user?.location || "",
       site: user?.site || "",
+      profileImage: user?.profileImage || "",
+      coverImage: user?.coverImage || "",
     },
     enableReinitialize: true,
     validateOnBlur: true,
     validationSchema: editProfileFormValidationSchema,
     onSubmit: async (values, actions) => {
       setLoading(true);
+
       await axios
         .post("/api/profile/update", values)
         .then(() => {
           toast.success("Successfully updated. Info will be shown soon");
-
           editModal.toggleModal();
         })
         .catch((err: AxiosError<{ message: string }>) => {
-          toast.error(err.response?.data.message || "");
+          toast.error(err.response?.data.message || "", {
+            duration: 3000,
+          });
         })
-        .finally(() => setLoading(false));
+        .finally(() => {
+          setLoading(false);
+        });
     },
   });
 
   const body = (
-    <div className="mx-3 h-full md:max-h-[80vh]">
+    <div className="mx-3 h-full overflow-y-scroll md:max-h-[80vh]">
       <div className="mb-3 text-2xl font-bold">Edit your profile</div>
-      <div className="flex flex-col gap-y-5">
+      <div className="relative mr-2 flex flex-col gap-y-5">
+        <div className="relative mb-16 w-full">
+          <FileUpload
+            value={formik.values.coverImage}
+            onChange={(image) => formik.setFieldValue("coverImage", image)}
+            disabled={loading}
+            className="w-full"
+            type="cover"
+          />
+          <FileUpload
+            value={formik.values.profileImage}
+            onChange={(image) => formik.setFieldValue("profileImage", image)}
+            disabled={loading}
+            className="absolute top-[65%] ml-4 w-fit rounded-full"
+            type="avatar"
+          />
+        </div>
         <Input
           type="text"
           name="name"
@@ -104,15 +125,19 @@ export default function EditProfileModal() {
                   formik.setFieldError("site", "Incorrect url")))) ||
             ""
           }
-        />
-      </div>
-      <div className="my-5 flex justify-end">
-        <Button
-          onClick={formik.handleSubmit}
-          disabled={!!formik.errors.site || !formik.isValid}
-          text="Save profile"
-          type="filled"
-        />
+        />{" "}
+        <div className="flex justify-end">
+          <Button
+            onClick={() => {
+              formik.validateForm();
+
+              formik.handleSubmit();
+            }}
+            disabled={!!formik.errors.site || !formik.isValid}
+            text="Save profile"
+            type="filled"
+          />
+        </div>
       </div>
     </div>
   );
