@@ -9,7 +9,7 @@ export default function CurrentUserAvatar({
   size,
   className,
 }: CurrentUserAvatarProps) {
-  const { data: user } = useCurrentUser();
+  const { user } = useCurrentUser();
   return (
     <Avatar
       src={user?.profileImage || user?.image || ""}

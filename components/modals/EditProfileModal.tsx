@@ -10,6 +10,10 @@ import useCurrentUser from "@/hooks/useCurrentUser";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
 import FileUpload from "./../inputs/FileUpload";
+import uploadToS3 from "@/utils/uploadToS3";
+import updateUserProfile from "@/services/updateUserProfile";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useUpdateProfile from "@/hooks/useUpdateProfile";
 
 const isValidUrl = (urlString: string) => {
   const inputElement = document.createElement("input");
@@ -23,10 +27,11 @@ const isValidUrl = (urlString: string) => {
   }
 };
 export default function EditProfileModal() {
+  const { user } = useCurrentUser();
+
   const [loading, setLoading] = useState<boolean>(false);
   const editModal = useEditProfileModal();
-  const { data: user } = useCurrentUser();
-
+  const { mutateAsync } = useUpdateProfile(user?.username as string);
   const formik = useFormik({
     initialValues: {
       name: user?.name || "",
@@ -39,28 +44,56 @@ export default function EditProfileModal() {
     enableReinitialize: true,
     validateOnBlur: true,
     validationSchema: editProfileFormValidationSchema,
-    onSubmit: async (values, actions) => {
+    onSubmit: async (values) => {
       setLoading(true);
+     
+      if (values.coverImage !== user?.coverImage && values.coverImage !== "")
+        await uploadToS3(values.coverImage)
+          .then((str) => {
+            values.coverImage = str;
+          })
+          .catch((err) => console.log(err));
+      if (
+        values.profileImage !== user?.profileImage &&
+        values.coverImage !== ""
+      )
+        await uploadToS3(values.profileImage)
+          .then((str) => {
+            values.profileImage = str;
+          })
+          .catch((err) => console.log(err));
 
-      await axios
-        .post("/api/profile/update", values)
+      await mutateAsync(values)
         .then(() => {
           toast.success("Successfully updated. Info will be shown soon");
           editModal.toggleModal();
         })
         .catch((err: AxiosError<{ message: string }>) => {
-          toast.error(err.response?.data.message || "", {
-            duration: 3000,
-          });
+          if (err.response?.status === 413) {
+            toast.error("Files are too big. Try to update them separately", {
+              duration: 3000,
+            });
+          } else {
+            toast.error(
+              err.response?.data.message ||
+                "Something went wrong :(\nProfile not updated",
+              {
+                duration: 3000,
+              }
+            );
+          }
         })
-        .finally(() => {
-          setLoading(false);
-        });
+        .finally(() => setLoading(false));
     },
   });
 
+  const handleToggle = () => {
+    formik.resetForm();
+    editModal.toggleModal();
+  };
+
   const body = (
-    <div className="mx-3 h-full overflow-y-scroll md:max-h-[80vh]">
+    <div className="ml-3 h-full overflow-y-scroll md:max-h-[80vh]">
       <div className="mb-3 text-2xl font-bold">Edit your profile</div>
       <div className="relative mr-2 flex flex-col gap-y-5">
         <div className="relative mb-16 w-full">
@@ -125,12 +158,11 @@ export default function EditProfileModal() {
                   formik.setFieldError("site", "Incorrect url")))) ||
             ""
           }
-        />{" "}
+        />
         <div className="flex justify-end">
           <Button
             onClick={() => {
               formik.validateForm();
-
               formik.handleSubmit();
             }}
             disabled={!!formik.errors.site || !formik.isValid}
@@ -145,7 +177,7 @@ export default function EditProfileModal() {
     <Modal
       body={body}
       loading={loading}
-      toggleModal={editModal.toggleModal}
+      toggleModal={handleToggle}
       isOpen={editModal.isOpen}
     />
   );

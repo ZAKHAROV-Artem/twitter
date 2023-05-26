@@ -4,24 +4,11 @@ import Button from "@/components/inputs/Button";
 import { SlLocationPin } from "react-icons/sl";
 import { AiOutlineLink, AiOutlineCalendar } from "react-icons/ai";
 import Header from "@/components/layout/header/Header";
-import useCurrentUser from "@/hooks/useCurrentUser";
 import useEditProfileModal from "@/state/EditProfileModalState";
 import Link from "next/link";
-
-const monthNames = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+import { User } from "@prisma/client";
+import useCurrentUser from "@/hooks/useCurrentUser";
+import getMonthName from "@/utils/getDate";
 
 function extractRootDomain(url: string) {
   var a = document.createElement("a");
@@ -29,20 +16,22 @@ function extractRootDomain(url: string) {
   return a.hostname;
 }
 
-export default function ProfileHeader() {
-  const { data: user } = useCurrentUser();
+export default function ProfileHeader({ user }: { user: User | undefined }) {
+  const { user: currentUser } = useCurrentUser();
   const date = new Date(user?.createdAt as Date);
   const toggleModal = useEditProfileModal((state) => state.toggleModal);
 
   return (
     <div>
       <Header text="Profile" />
-      <div className="relative h-[270px]">
+      <div className="relative h-[270px] w-full">
         {user?.coverImage ? (
           <Image
             src={user.coverImage}
-            width={160}
-            height={90}
+            width={1600}
+            height={900}
+            quality={100}
+            priority
             className="h-52 w-full object-cover"
             alt="Profile cover"
           />
@@ -50,20 +39,22 @@ export default function ProfileHeader() {
           <div className="h-52 w-full bg-gray-300/30" />
         )}
 
-        <Avatar
-          size="lg"
+      <Avatar
           src={user?.profileImage || user?.image || ""}
           name={user?.name || ""}
+          size="lg"
           className="absolute bottom-0 mx-5 border-4 border-black"
         />
-        <div className="mt-3 flex w-full justify-end pr-3">
-          <Button
-            onClick={toggleModal}
-            text="Edit profile"
-            type="outlined"
-            className="font-bold"
-          />
-        </div>
+        {user?.id === currentUser?.id && (
+          <div className="mt-3 flex w-full justify-end pr-3">
+            <Button
+              onClick={toggleModal}
+              text="Edit profile"
+              type="outlined"
+              className="font-bold"
+            />
+          </div>
+        )}
       </div>
       <div className="mx-3 mt-5 flex flex-col gap-y-3">
         <div>
@@ -91,7 +82,7 @@ export default function ProfileHeader() {
           <div className="flex items-center gap-x-1 text-app-gray">
             <AiOutlineCalendar size={20} />
             <span>
-              Joined {`${monthNames[date.getMonth()]} ${date.getFullYear()}`}
+              Joined {`${getMonthName(date.getMonth())} ${date.getFullYear()}`}
             </span>
           </div>
         </div>

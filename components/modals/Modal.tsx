@@ -36,13 +36,13 @@ export default function Modal({
   return (
     <div className="fixed left-0 top-0 z-50 h-screen w-screen">
       <div
-        onClick={(e) => handleClose(e)}
+        onClick={(e) => !loading&&handleClose(e)}
         className={`absolute h-screen w-screen ${
           showModal ? "bg-modal" : "bg-modal/0"
         } duration-300`}
       />
       <div
-        className={`relative mx-auto h-screen w-full bg-black p-3 duration-300 md:mt-10 md:h-fit md:max-w-xl md:rounded-2xl  ${
+        className={`relative mx-auto h-screen w-full overflow-y-scroll bg-black p-3 duration-300 md:mt-10 md:h-fit md:max-w-xl md:rounded-2xl  ${
           showModal ? "translate-y-0" : "translate-y-full"
         }
           ${showModal ? "opacity-100" : "opacity-0"}`}

@@ -3,12 +3,12 @@ import Avatar from "../data-display/Avatar";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import Image from "next/image";
 import { useDropzone } from "react-dropzone";
-import { MdCameraEnhance } from "react-icons/md";
+import { MdCameraEnhance, MdOutlineClose } from "react-icons/md";
 
 interface Props {
   value: string;
   disabled?: boolean;
-  onChange: (image: string) => void;
+  onChange: (image: any) => void;
   className?: string;
   type: "avatar" | "cover" | "post";
 }
@@ -20,10 +20,10 @@ export default function FileUpload({
   type,
 }: Props) {
   const [base64, setBase64] = useState<string>(value);
-  const { data: user } = useCurrentUser();
+  const { user } = useCurrentUser();
   const handleChange = useCallback(
-    (base64: string) => {
-      onChange(base64);
+    (file: any) => {
+      onChange(file);
     },
     [onChange]
   );
@@ -52,37 +52,55 @@ export default function FileUpload({
   });
 
   return (
-    <div
-      {...getRootProps({
-        className: `cursor-pointer border-0 outline-0 ${className}`,
-      })}
-    >
+    <>
       <input {...getInputProps()} />
       {type === "avatar" && (
-        <Avatar
-          src={base64}
-          name={user?.name || ""}
-          size="lg"
-          className="border-2 border-black"
-        />
-      )}
-      {type === "cover" && (
-        <div className="max-h-48">
-          {base64 ? (
-            <Image
-              alt="Profile cover"
-              src={base64}
-              width={160}
-              height={90}
-              className="h-full max-h-48 w-full rounded-xl object-cover"
-            />
-          ) : (
-            <div className="flex h-48 w-full items-center justify-center">
-              <MdCameraEnhance size={25} />
-            </div>
-          )}
+        <div
+          {...getRootProps({
+            className: `cursor-pointer border-0 outline-0  ${className}`,
+          })}
+        >
+          <Avatar
+            src={base64}
+            name={user?.name || ""}
+            size="lg"
+            className="border-2 border-black"
+          />
         </div>
       )}
-    </div>
+      {type === "cover" && (
+        <>
+          <div
+            {...getRootProps({
+              className: `cursor-pointer border-0 outline-0 relative h-48 overflow-hidden rounded-xl ${className}`,
+            })}
+          >
+            {base64 && (
+              <Image
+                alt="Profile cover"
+                src={base64}
+                width={1600}
+                height={900}
+                className="h-full max-h-48 w-full object-cover"
+              />
+            )}
+            <div className="absolute top-0 flex h-full w-full items-center justify-center gap-x-5 bg-slate-800/60">
+              <MdCameraEnhance size={25} />
+            </div>
+          </div>
+          {base64 && (
+            <div
+              className="absolute left-0 top-0 p-2"
+              onClick={() => {
+                handleChange("");
+                setBase64("");
+              }}
+            >
+              <MdOutlineClose size={25} />
+            </div>
+          )}
+        </>
+      )}
+    </>
   );
 }
