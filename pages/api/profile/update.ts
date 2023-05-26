@@ -6,11 +6,11 @@ import handleError from "@/error/handleError";
 
 export const config = {
   api: {
-      bodyParser: {
-          sizeLimit: '4mb' // Set desired value here
-      }
-  }
-}
+    bodyParser: {
+      sizeLimit: "10mb", // Set desired value here
+    },
+  },
+};
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -21,7 +21,6 @@ export default async function handler(
 
   try {
     const { currentUser } = await serverAuth(req, res);
-    if (!currentUser) throw ApiError.isNotAuth("Not authenticated");
     const { name, bio, location, site, profileImage, coverImage } = req.body;
     if (
       name === undefined ||
@@ -49,6 +48,7 @@ export default async function handler(
 
     return res.status(200).json(user);
   } catch (error) {
+    console.log(error);
     return handleError(error, res);
   }
 }

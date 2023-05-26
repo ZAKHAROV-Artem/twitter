@@ -23,7 +23,7 @@ export const menuAuthRoutes: Route[] = [
     icon: AiFillHome,
   },
   { name: "Notifications", path: NOTIFICATIONS, icon: AiFillBell },
-  { name: "Profile", path: PROFILE, icon: AiOutlineUser },
+ 
 ];
 
 export const menuPublicRoutes: Route[] = [

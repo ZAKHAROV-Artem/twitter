@@ -1,18 +1,14 @@
-import useSWR from "swr";
-import type { User } from "@prisma/client";
-import fetcher from "@/libs/fetcher";
+import { useQuery } from "@tanstack/react-query";
+import fetchCurrentUser from "@/services/fetchCurrentUser";
 
 const useCurrentUser = () => {
-  const { data, error, isLoading, mutate } = useSWR<User, Error>(
-    "/api/currentuser",
-    fetcher
-  );
-
+  const query = useQuery({
+    queryFn: fetchCurrentUser,
+    queryKey: ["current user"],
+    retry:false,
+  });
   return {
-    data,
-    error,
-    isLoading,
-    mutate,
+    ...query, user:query.data?.data,
   };
 };
 
