@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import fetchUser from "@/services/fetchUser";
+import fetchUser from "@/services/user/fetchUser";
 
 const useUser = (username:string) => {
   const query = useQuery({

@@ -1,4 +1,4 @@
-import fetchUserPosts from "@/services/fetchUserPosts";
+import fetchUserPosts from "@/services/posts/fetchUserPosts";
 import { useQuery } from "@tanstack/react-query";
 
 const useUserPosts = (username:string) => {

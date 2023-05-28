@@ -23,7 +23,7 @@ export default function Sidebar() {
               <SideBarItem
                 onClick={() => signOut()}
                 name="Logout"
-                path=""
+                path="/"
                 icon={BiLogOut}
               />
               <SideBarItem

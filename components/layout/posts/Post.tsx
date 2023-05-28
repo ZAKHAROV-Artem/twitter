@@ -25,7 +25,7 @@ export default function Post({ post }: PostProps) {
           <span className="mx-1 text-app-gray">·</span>
           <span className="text-app-gray">{`${getMonthName(
             date.getMonth()
-          )} ${date.getDay()}`}</span>
+          )} ${date.getDate()}`}</span>
         </div>
         <div>{post.body}</div>
       </div>

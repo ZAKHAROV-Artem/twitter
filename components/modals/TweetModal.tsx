@@ -9,11 +9,15 @@ import toast from "react-hot-toast";
 import tweetFormValidationSchema from "@/validation/TweetFormSchema";
 import Divider from "../data-display/Divider";
 import Button from "../inputs/Button";
+import { useMutation } from "@tanstack/react-query";
+import createPost from "@/services/posts/createPost";
+import useCreatePost from "@/hooks/useCreatePost";
 
 interface TweetModalProps {}
 export default function TweetModal({}: TweetModalProps) {
   const twModal = useTweetModal();
   const [loading, setLoading] = useState<boolean>(false);
+  const {mutateAsync} = useCreatePost()
   const formik = useFormik({
     initialValues: {
       body: "",
@@ -23,21 +27,19 @@ export default function TweetModal({}: TweetModalProps) {
     onSubmit: async (values, actions) => {
       setLoading(true);
 
-      await axios
-        .post("/api/posts/create", values)
-        .then(() => {
-          toast.success("Tweet created");
+      await mutateAsync(values.body).then(()=>{
+        toast.success("Tweet created");
           twModal.toggleModal();
-        })
-        .catch((err: AxiosError<{ message: string }>) => {
-          toast.error(err.response?.data.message || "", {
-            duration: 3000,
-          });
-        })
-        .finally(() => {
-          setLoading(false);
-          actions.resetForm();
+      }).catch((err: AxiosError<{ message: string }>) => {
+        toast.error(err.response?.data.message || "", {
+          duration: 3000,
         });
+      })
+      .finally(() => {
+        setLoading(false);
+        actions.resetForm();
+      });
+        
     },
   });
 

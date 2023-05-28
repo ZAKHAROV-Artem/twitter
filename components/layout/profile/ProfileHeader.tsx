@@ -39,7 +39,7 @@ export default function ProfileHeader({ user }: { user: User | undefined }) {
           <div className="h-52 w-full bg-gray-300/30" />
         )}
 
-      <Avatar
+        <Avatar
           src={user?.profileImage || user?.image || ""}
           name={user?.name || ""}
           size="lg"
@@ -61,7 +61,9 @@ export default function ProfileHeader({ user }: { user: User | undefined }) {
           <div className="font-[900] text-white">{user?.name}</div>
           <div className="text-app-gray">@{user?.username}</div>
         </div>
-        {user?.bio?.length && <div className="text-white">{user?.bio}</div>}
+        {user?.bio?.length !== 0 && (
+          <div className="text-white">{user?.bio}</div>
+        )}
         <div className="flex flex-wrap gap-x-2 gap-y-1">
           {user?.location && (
             <div className="flex items-center gap-x-1 text-app-gray">
@@ -87,7 +89,7 @@ export default function ProfileHeader({ user }: { user: User | undefined }) {
           </div>
         </div>
 
-        <div>
+        <div className="mb-3">
           <span className="font-bold text-white">
             {user?.followingIds.length}
           </span>

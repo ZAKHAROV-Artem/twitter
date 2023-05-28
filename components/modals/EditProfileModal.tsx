@@ -7,31 +7,20 @@ import editProfileFormValidationSchema from "@/validation/EditProfileFormSchema"
 import TextArea from "../inputs/Textarea";
 import Button from "../inputs/Button";
 import useCurrentUser from "@/hooks/useCurrentUser";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
 import FileUpload from "./../inputs/FileUpload";
-import uploadToS3 from "@/utils/uploadToS3";
-import updateUserProfile from "@/services/updateUserProfile";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import uploadToS3 from "@/services/s3/uploadToS3";
 import useUpdateProfile from "@/hooks/useUpdateProfile";
+import deleteFromS3 from "@/services/s3/deleteFromS3";
+import isValidUrl from "@/utils/isValidUrl";
 
-const isValidUrl = (urlString: string) => {
-  const inputElement = document.createElement("input");
-  inputElement.type = "url";
-  inputElement.value = urlString;
-
-  if (!inputElement.checkValidity()) {
-    return false;
-  } else {
-    return true;
-  }
-};
 export default function EditProfileModal() {
   const { user } = useCurrentUser();
 
   const [loading, setLoading] = useState<boolean>(false);
   const editModal = useEditProfileModal();
-  const { mutateAsync } = useUpdateProfile(user?.username as string);
+  const { mutateAsync } = useUpdateProfile();
   const formik = useFormik({
     initialValues: {
       name: user?.name || "",
@@ -46,9 +35,9 @@ export default function EditProfileModal() {
     validationSchema: editProfileFormValidationSchema,
     onSubmit: async (values) => {
       setLoading(true);
-     
+
       if (values.coverImage !== user?.coverImage && values.coverImage !== "")
-        await uploadToS3(values.coverImage)
+        await uploadToS3(values.coverImage, `${user?.username}/cover-image`)
           .then((str) => {
             values.coverImage = str;
           })
@@ -57,11 +46,13 @@ export default function EditProfileModal() {
         values.profileImage !== user?.profileImage &&
         values.coverImage !== ""
       )
-        await uploadToS3(values.profileImage)
+        await uploadToS3(values.profileImage, `${user?.username}/profile-image`)
           .then((str) => {
             values.profileImage = str;
           })
           .catch((err) => console.log(err));
+      if (values.coverImage === "")
+        await deleteFromS3(`${user?.username}/cover-image`);
 
       await mutateAsync(values)
         .then(() => {
