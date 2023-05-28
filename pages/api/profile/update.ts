@@ -3,6 +3,7 @@ import serverAuth from "@/libs/serverAuth";
 import prisma from "@/libs/prismadb";
 import ApiError from "@/error/ApiError";
 import handleError from "@/error/handleError";
+import apiAuth from "@/utils/apiAuth";
 
 export const config = {
   api: {
@@ -20,7 +21,7 @@ export default async function handler(
   }
 
   try {
-    const { currentUser } = await serverAuth(req, res);
+    const currentUser = await apiAuth(req, res);
     const { name, bio, location, site, profileImage, coverImage } = req.body;
     if (
       name === undefined ||

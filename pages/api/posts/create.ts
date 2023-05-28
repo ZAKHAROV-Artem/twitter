@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import serverAuth from "@/libs/serverAuth";
 import handleError from "@/error/handleError";
 import ApiError from "@/error/ApiError";
+import apiAuth from "@/utils/apiAuth";
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,7 +13,7 @@ export default async function handler(
   }
 
   try {
-    const { currentUser } = await serverAuth(req, res);
+    const currentUser = await apiAuth(req, res);
     const { body } = req.body;
 
     if (!body) throw ApiError.badRequest("Info not provided");
