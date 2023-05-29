@@ -1,12 +1,19 @@
+import useDebounce from "@/hooks/useDebounce";
+import useUserSearch from "@/hooks/useUserSearch";
+import fetchSearchUsers from "@/services/user/fetchSearchUsers";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { BiSearch } from "react-icons/bi";
+import SearchUser from "../data-display/SearchUser";
 
 export default function SearchInput() {
   const [isFocused, setFocused] = useState<boolean>(false);
   const [query, setQuery] = useState<string>("");
+  const { users } = useUserSearch(query);
+
   return (
     <div
-      className={`flex h-12 w-full items-center rounded-3xl bg-app-gray-dark  ${
+      className={`relative flex h-12 w-full items-center rounded-3xl bg-app-gray-dark  ${
         isFocused ? "border border-blue-400" : "border-none"
       }`}
     >
@@ -20,6 +27,11 @@ export default function SearchInput() {
         onBlur={() => setFocused(false)}
         placeholder="Search Twitter"
       />
+      <div className="absolute top-[115%] left-[-20%] max-h-96 overflow-y-scroll rounded-md shadow-gray w-[120%]  bg-black">
+        {users?.map((user) => (
+          <SearchUser key={user.id} user={user} />
+        ))}
+      </div>
     </div>
   );
 }

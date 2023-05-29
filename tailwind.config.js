@@ -15,6 +15,9 @@ module.exports = {
         "app-gray": "#71767B",
         "app-gray-dark": "#16181C",
       },
+      boxShadow:{
+        "gray":" rgba(255, 255, 255, 0.2) 0px 0px 15px, rgba(255, 255, 255, 0.15) 0px 0px 3px 1px"
+      }
     },
   },
   plugins: [],
