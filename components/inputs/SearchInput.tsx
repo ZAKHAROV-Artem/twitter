@@ -27,7 +27,7 @@ export default function SearchInput() {
         onBlur={() => setFocused(false)}
         placeholder="Search Twitter"
       />
-      <div className="absolute top-[115%] left-[-20%] max-h-96 overflow-y-scroll rounded-md shadow-gray w-[120%]  bg-black">
+      <div className={`absolute top-[115%] left-[-20%] duration-300 max-h-96 overflow-y-scroll rounded-md shadow-gray w-[120%]  bg-black ${users ? "opacity-100" : "opacity-0"}`}>
         {users?.map((user) => (
           <SearchUser key={user.id} user={user} />
         ))}
