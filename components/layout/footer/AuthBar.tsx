@@ -19,7 +19,7 @@ export default function AuthBar() {
             className="w-full"
             onClick={toggleSignInModal}
             text="Sign in"
-            type="outlined"
+            variant="outlined"
           />
           <Button
             className="w-full"

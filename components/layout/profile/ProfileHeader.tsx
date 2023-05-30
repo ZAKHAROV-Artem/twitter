@@ -9,6 +9,7 @@ import Link from "next/link";
 import { User } from "@prisma/client";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import getMonthName from "@/utils/getDate";
+import useFollow from "@/hooks/useFollow";
 
 function extractRootDomain(url: string) {
   var a = document.createElement("a");
@@ -20,7 +21,14 @@ export default function ProfileHeader({ user }: { user: User | undefined }) {
   const { user: currentUser } = useCurrentUser();
   const date = new Date(user?.createdAt as Date);
   const toggleModal = useEditProfileModal((state) => state.toggleModal);
-
+  const { isFollowing, follow, unFollow } = useFollow(user?.username as string);
+  const handleFollow = async()=>{
+    if(isFollowing){
+      await unFollow.mutateAsync(user?.id as string)
+    }else{
+      await follow.mutateAsync(user?.id as string)
+    }
+  }
   return (
     <div>
       <Header text="Profile" />
@@ -45,16 +53,24 @@ export default function ProfileHeader({ user }: { user: User | undefined }) {
           size="lg"
           className="absolute bottom-0 mx-5 border-4 border-black"
         />
-        {user?.id === currentUser?.id && (
-          <div className="mt-3 flex w-full justify-end pr-3">
+        <div className="mt-3 flex w-full justify-end pr-3">
+          {user?.id === currentUser?.id ? (
             <Button
               onClick={toggleModal}
               text="Edit profile"
-              type="outlined"
+              variant="outlined"
               className="font-bold"
             />
-          </div>
-        )}
+          ) : (
+            <Button
+              onClick={handleFollow}
+              text={isFollowing ? "Unfollow" : "Follow"}
+              variant="outlined"
+              color={isFollowing ? "red":undefined}
+              className="font-bold"
+            />
+          )}
+        </div>
       </div>
       <div className="mx-3 mt-5 flex flex-col gap-y-3">
         <div>

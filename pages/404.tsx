@@ -11,7 +11,7 @@ export default function NotFound() {
         Hmm...this page doesn’t exist. Try searching for something else.
       </div>
       <Button
-        type="filled"
+        variant="filled"
         text="Search"
         className="mt-3"
         onClick={() => router.push(HOME)}

@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import serverAuth from "@/utils/serverAuth";
 import handleError from "@/error/handleError";
-import ApiError from "@/error/ApiError";
 
 export default async function handler(
   req: NextApiRequest,
@@ -13,19 +12,18 @@ export default async function handler(
 
   try {
     const currentUser = await serverAuth(req, res);
-    const { body } = req.body;
-
-    if (!body) throw ApiError.badRequest("Info not provided");
-
-    const post = await prisma?.post.create({
-      data: {
-        body,
-        username: currentUser?.username as string,
+    if (!currentUser) return;
+    const {id} = req.body;
+    const user = await prisma?.user.update({
+      where: {
+        id: currentUser?.id,
       },
+      data:{
+        followingIds:[...currentUser.followingIds,id]
+      }
     });
-
-    return res.status(200).json(post);
-  } catch (error) {
+    return res.status(200).json(user);
+} catch (error) {
     return handleError(error, res);
   }
 }

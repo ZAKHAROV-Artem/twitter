@@ -1,9 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import serverAuth from "@/libs/serverAuth";
+import serverAuth from "@/utils/serverAuth";
 import prisma from "@/libs/prismadb";
 import ApiError from "@/error/ApiError";
 import handleError from "@/error/handleError";
-import apiAuth from "@/utils/apiAuth";
 
 export const config = {
   api: {
@@ -21,7 +20,7 @@ export default async function handler(
   }
 
   try {
-    const currentUser = await apiAuth(req, res);
+    const currentUser = await serverAuth(req, res);
     const { name, bio, location, site, profileImage, coverImage } = req.body;
     if (
       name === undefined ||
@@ -35,7 +34,7 @@ export default async function handler(
 
     const user = await prisma.user.update({
       where: {
-        email: currentUser.email as string,
+        email: currentUser?.email as string,
       },
       data: {
         name,

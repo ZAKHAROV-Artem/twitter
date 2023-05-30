@@ -99,10 +99,10 @@ export default function RegisterModal() {
         </div>
         <div className="flex justify-end">
           <Button
-            onClick={formik.handleSubmit}
+            onClick={()=>formik.handleSubmit()}
             disabled={!formik.isValid}
             text="Create"
-            type="filled"
+            variant="filled"
           />
         </div>
       </div>

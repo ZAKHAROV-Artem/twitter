@@ -3,8 +3,9 @@ import prisma from "@/libs/prismadb";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import ApiError from "@/error/ApiError";
+import { signOut } from "next-auth/react";
 
-const serverAuth = async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function serverAuth(req: NextApiRequest, res: NextApiResponse){
   const session = await getServerSession(req, res, authOptions);
 
   if (!session?.user?.email) throw ApiError.isNotAuth("Not authenticated");
@@ -13,8 +14,9 @@ const serverAuth = async (req: NextApiRequest, res: NextApiResponse) => {
       email: session.user.email,
     },
   });
-  if (!currentUser) throw ApiError.isNotAuth("Not authenticated");
-  return { currentUser };
+  if (!currentUser) {
+    signOut();
+    return;
+  }
+  return currentUser;
 };
-
-export default serverAuth;

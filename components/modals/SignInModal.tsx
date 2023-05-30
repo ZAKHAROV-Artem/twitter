@@ -60,10 +60,10 @@ export default function SignInModal() {
         </div>
         <div className="flex justify-end">
           <Button
-            onClick={formik.handleSubmit}
+            onClick={()=>formik.handleSubmit()}
             disabled={!formik.isValid}
             text="Sign in"
-            type="filled"
+            variant="filled"
           />
         </div>
       </div>

@@ -158,7 +158,7 @@ export default function EditProfileModal() {
             }}
             disabled={!!formik.errors.site || !formik.isValid}
             text="Save profile"
-            type="filled"
+            variant="filled"
           />
         </div>
       </div>
