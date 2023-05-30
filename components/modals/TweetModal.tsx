@@ -48,7 +48,7 @@ export default function TweetModal({}: TweetModalProps) {
       <div className="flex w-full gap-x-3">
         <CurrentUserAvatar size="md" />
 
-        <div className="w-full">
+        <div className="grow">
           <textarea
             name="body"
             id="body"
