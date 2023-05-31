@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import fetchCurrentUser from "@/services/user/fetchCurrentUser";
+import { signOut } from "next-auth/react";
 
 const useCurrentUser = () => {
   const query = useQuery({

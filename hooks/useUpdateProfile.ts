@@ -9,6 +9,7 @@ const useUpdateProfile = () => {
     mutationFn: updateUserProfile,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [user?.username] });
+      queryClient.invalidateQueries({ queryKey: ["current user"] });
     },
   });
 

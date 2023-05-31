@@ -1,33 +1,41 @@
 import useTweetModal from "@/state/TweetModalState";
-import Avatar from "../data-display/Avatar";
 import Modal from "./Modal";
 import CurrentUserAvatar from "./../data-display/CurrentUserAvatar";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { useFormik } from "formik";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import tweetFormValidationSchema from "@/validation/TweetFormSchema";
 import Divider from "../data-display/Divider";
 import Button from "../inputs/Button";
-import { useMutation } from "@tanstack/react-query";
-import createPost from "@/services/posts/createPost";
 import useCreatePost from "@/hooks/useCreatePost";
+import { CiImageOn } from 'react-icons/ci';
+import FileUpload from './../inputs/FileUpload';
+import uploadToS3 from "@/services/s3/uploadToS3";
+import useCurrentUser from "@/hooks/useCurrentUser";
 
 interface TweetModalProps {}
 export default function TweetModal({}: TweetModalProps) {
+  const {user} = useCurrentUser();
   const twModal = useTweetModal();
   const [loading, setLoading] = useState<boolean>(false);
   const {mutateAsync} = useCreatePost()
   const formik = useFormik({
     initialValues: {
       body: "",
+      image:"",
     },
     enableReinitialize: true,
     validationSchema: tweetFormValidationSchema,
     onSubmit: async (values, actions) => {
       setLoading(true);
-
-      await mutateAsync(values.body).then(()=>{
+      if (values.image !== "")
+      await uploadToS3(values.image, `${user?.username}/posts/${Date.now()}`)
+        .then((str) => {
+          values.image = str;
+        })
+        .catch((err) => console.log(err));
+      await mutateAsync(values).then(()=>{
         toast.success("Tweet created");
           twModal.toggleModal();
       }).catch((err: AxiosError<{ message: string }>) => {
@@ -61,7 +69,7 @@ export default function TweetModal({}: TweetModalProps) {
         </div>
       </div>
       <Divider className="my-2" />
-      <div>
+      <div className="flex justify-between items-center">
         <Button
           text="Tweet"
           color="blue"
@@ -70,6 +78,8 @@ export default function TweetModal({}: TweetModalProps) {
             formik.handleSubmit();
           }}
         />
+       <FileUpload  value={formik.values.image}
+            onChange={(image) => formik.setFieldValue("image", image)} type="post"/>
       </div>
     </div>
   );

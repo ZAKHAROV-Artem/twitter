@@ -36,17 +36,16 @@ export default function EditProfileModal() {
     onSubmit: async (values) => {
       setLoading(true);
 
-      if (values.coverImage !== user?.coverImage && values.coverImage !== "")
-        await uploadToS3(values.coverImage, `${user?.username}/cover-image`)
-          .then((str) => {
-            values.coverImage = str;
-          })
-          .catch((err) => console.log(err));
-      if (
-        values.profileImage !== user?.profileImage &&
-        values.coverImage !== ""
-      )
-        await uploadToS3(values.profileImage, `${user?.username}/profile-image`)
+      if (values.coverImage !== "")
+      await deleteFromS3(`${user?.username}/cover-image-${user?.coverImage?.split("-").at(-1)}`);
+      await uploadToS3(values.coverImage, `${user?.username}/cover-image-${Date.now()}`)
+      .then((str) => {
+        values.coverImage = str;
+      })
+      .catch((err) => console.log(err));
+      if (values.profileImage !== "")
+      await deleteFromS3(`${user?.username}/profile-image-${user?.profileImage?.split("-").at(-1)}`);
+        await uploadToS3(values.profileImage, `${user?.username}/profile-image-${Date.now()}`)
           .then((str) => {
             values.profileImage = str;
           })

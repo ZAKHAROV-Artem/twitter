@@ -36,7 +36,7 @@ export default function SideBarItem({
       xl:justify-start"
     >
       <Icon size={28} color="white" />{" "}
-      <p className="hidden pr-3 text-xl xl:block">{name}</p>
+      <p className="hidden text-xl xl:block">{name}</p>
     </Link>
   );
 }
