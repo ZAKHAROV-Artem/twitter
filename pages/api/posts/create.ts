@@ -13,13 +13,14 @@ export default async function handler(
 
   try {
     const currentUser = await serverAuth(req, res);
-    const { body } = req.body;
+    const { body,image } = req.body;
 
     if (!body) throw ApiError.badRequest("Info not provided");
 
     const post = await prisma?.post.create({
       data: {
         body,
+        image,
         username: currentUser?.username as string,
       },
     });

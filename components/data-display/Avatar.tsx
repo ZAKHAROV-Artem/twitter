@@ -19,9 +19,9 @@ export default function Avatar({
           className={`flex items-center justify-center rounded-full ${
             !src && "bg-gray-300"
           }   text-white 
-      ${size === "sm" && "h-12 w-12"}
-      ${size === "md" && "h-16 w-16"} 
-      ${size === "lg" && "h-32 w-32"} 
+      ${size === "sm" && "h-12 w-12 text-sm"}
+      ${size === "md" && "h-16 w-16 text-xl"} 
+      ${size === "lg" && "h-32 w-32 text-4xl"} 
       ${className}`}
         >
           {name && (
@@ -37,11 +37,11 @@ export default function Avatar({
           src={src}
           alt="Profile"
           quality={100}
-          className={`rounded-full object-cover  ${
-            size === "sm" && "h-12 w-12 text-sm"
-          }
+          className={`rounded-full object-cover  
+          ${size === "sm" && "h-12 w-12 text-sm"}
           ${size === "md" && "h-16 w-16 text-xl"} 
-          ${size === "lg" && "h-32 w-32 text-4xl"}   ${className}`}
+          ${size === "lg" && "h-32 w-32 text-4xl"}   
+          ${className}`}
           width={1000}
           height={1000}
         />

@@ -11,7 +11,7 @@ export default function Layout({ children }: Layout) {
   return (
     <div className="h-screen bg-black">
       <div className="xl:px-30 container mx-auto h-full max-w-6xl">
-        <div className="relative grid h-full grid-cols-4">
+        <div className="relative grid h-full grid-cols-[80px_repeat(3,1fr)] md:grid-cols-[200px_repeat(3,1fr)]">
           <Sidebar />
           <main className="col-span-3 border-x-[1px] border-neutral-800 lg:col-span-2 ">
             {children}

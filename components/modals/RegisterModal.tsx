@@ -52,7 +52,7 @@ export default function RegisterModal() {
             type="text"
             name="name"
             id="name"
-            placeholder="Name"
+            placeholder="Fullname"
             value={formik.values.name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}

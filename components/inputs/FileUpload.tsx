@@ -4,6 +4,7 @@ import useCurrentUser from "@/hooks/useCurrentUser";
 import Image from "next/image";
 import { useDropzone } from "react-dropzone";
 import { MdCameraEnhance, MdOutlineClose } from "react-icons/md";
+import { CiImageOn } from "react-icons/ci";
 
 interface Props {
   value: string;
@@ -66,6 +67,15 @@ export default function FileUpload({
             size="lg"
             className="border-2 border-black"
           />
+        </div>
+      )}
+      {type === "post" && (
+        <div
+          {...getRootProps({
+            className: `cursor-pointer border-0 outline-0  ${className}`,
+          })}
+        >
+          <CiImageOn size={35} className="text-blue-500 cursor-pointer"/>
         </div>
       )}
       {type === "cover" && (

@@ -36,23 +36,44 @@ export default function EditProfileModal() {
     onSubmit: async (values) => {
       setLoading(true);
 
-      if (values.coverImage !== user?.coverImage && values.coverImage !== "")
-        await uploadToS3(values.coverImage, `${user?.username}/cover-image`)
+      if (
+        values.coverImage !== "" &&
+        values.coverImage.startsWith("data:image/jpeg;base64")
+      ) {
+        await deleteFromS3(
+          `${user?.username}/cover-image-${user?.coverImage?.split("-").at(-1)}`
+        );
+        await uploadToS3(
+          values.coverImage,
+          `${user?.username}/cover-image-${Date.now()}`
+        )
           .then((str) => {
             values.coverImage = str;
           })
           .catch((err) => console.log(err));
+      }
       if (
-        values.profileImage !== user?.profileImage &&
-        values.coverImage !== ""
-      )
-        await uploadToS3(values.profileImage, `${user?.username}/profile-image`)
+        values.profileImage !== "" &&
+        values.profileImage.startsWith("data:image/jpeg;base64")
+      ) {
+        await deleteFromS3(
+          `${user?.username}/profile-image-${user?.profileImage
+            ?.split("-")
+            .at(-1)}`
+        );
+        await uploadToS3(
+          values.profileImage,
+          `${user?.username}/profile-image-${Date.now()}`
+        )
           .then((str) => {
             values.profileImage = str;
           })
           .catch((err) => console.log(err));
+      }
       if (values.coverImage === "")
-        await deleteFromS3(`${user?.username}/cover-image`);
+        await deleteFromS3(
+          `${user?.username}/cover-image-${user?.coverImage?.split("-").at(-1)}`
+        );
 
       await mutateAsync(values)
         .then(() => {
