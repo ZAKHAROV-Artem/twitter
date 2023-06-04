@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { hash } from "bcrypt";
 import prisma from "@/libs/prismadb";
+import handleError from "@/error/handleError";
+import ApiError from "@/error/ApiError";
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,7 +13,7 @@ export default async function handler(
   try {
     const { name, email, username, birthDate, password } = req.body;
     if (!name || !email || !username || !birthDate || !password)
-      return res.status(400).end();
+      throw ApiError.badRequest("Not enought data to create user :(");
 
     const hashedPassword = await hash(password, 12);
     const user = await prisma.user.create({
@@ -19,7 +21,6 @@ export default async function handler(
     });
     return res.status(200).json(user);
   } catch (error) {
-    console.log(error);
-    return res.status(500).end();
+    handleError(error, res);
   }
 }

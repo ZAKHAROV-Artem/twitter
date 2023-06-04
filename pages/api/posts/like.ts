@@ -13,18 +13,21 @@ export default async function handler(
 
   try {
     const currentUser = await serverAuth(req, res);
-    const { body, image } = req.body;
-    if (!body) throw ApiError.badRequest("Can't create empty tweet :(");
+    const { postId } = req.body;
 
-    const post = await prisma?.post.create({
+    if (!postId) throw ApiError.badRequest("Can't like this post :(");
+    const post = await prisma?.post.findUnique({ where: { id: postId } });
+    if (!post) throw ApiError.badRequest("Post not exixt :(");
+    await prisma?.post.update({
+      where: {
+        id: postId,
+      },
       data: {
-        body,
-        image,
-        username: currentUser?.username as string,
+        likedIds: [...post.likedIds, currentUser?.id as string],
       },
     });
 
-    return res.status(200).json(post);
+    return res.status(200);
   } catch (error) {
     handleError(error, res);
   }

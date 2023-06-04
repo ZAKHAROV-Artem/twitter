@@ -30,7 +30,7 @@ export default async function handler(
       profileImage === undefined ||
       coverImage === undefined
     )
-      throw ApiError.badRequest("No data");
+      throw ApiError.badRequest("I have no data to update :(");
 
     const user = await prisma.user.update({
       where: {
@@ -49,6 +49,6 @@ export default async function handler(
     return res.status(200).json(user);
   } catch (error) {
     console.log(error);
-    return handleError(error, res);
+    handleError(error, res);
   }
 }

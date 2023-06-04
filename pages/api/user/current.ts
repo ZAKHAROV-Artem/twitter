@@ -14,11 +14,10 @@ export default async function handler(
 
   try {
     const currentUser = await serverAuth(req, res);
-    if(!currentUser)return;
+    if (!currentUser) return;
     const { hashedPassword, ...user } = currentUser;
     return res.status(200).json(user);
   } catch (error) {
-    console.log("Not auth");
-    return handleError(error, res);
+    handleError(error, res);
   }
 }

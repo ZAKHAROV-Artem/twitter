@@ -24,6 +24,6 @@ export default async function serverAuth(
     }
     return currentUser;
   } catch (error) {
-    return handleError(error, res);
+    handleError(error, res);
   }
 }

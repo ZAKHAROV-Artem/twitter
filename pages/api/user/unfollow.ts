@@ -13,17 +13,17 @@ export default async function handler(
   try {
     const currentUser = await serverAuth(req, res);
     if (!currentUser) return;
-    const {id} = req.body;
+    const { id } = req.body;
     const user = await prisma?.user.update({
       where: {
         id: currentUser?.id,
       },
-      data:{
-        followingIds:currentUser.followingIds.filter((item)=>item!==id)
-      }
+      data: {
+        followingIds: currentUser.followingIds.filter((item) => item !== id),
+      },
     });
     return res.status(200).json(user);
-} catch (error) {
-    return handleError(error, res);
+  } catch (error) {
+    handleError(error, res);
   }
 }

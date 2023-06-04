@@ -11,9 +11,10 @@ export default async function handler(
   }
 
   try {
-    const { username }:any = req.query;
-    if (!username) throw ApiError.badRequest("Info not provided");
-   
+    const { username }: any = req.query;
+
+    if (!username) throw ApiError.badRequest("Can't get user by username :(");
+
     const posts = await prisma?.post.findMany({
       where: {
         username,
@@ -22,6 +23,6 @@ export default async function handler(
 
     return res.status(200).json(posts?.reverse());
   } catch (error) {
-    return handleError(error, res);
+    handleError(error, res);
   }
 }
