@@ -11,6 +11,7 @@ import localFont from "next/font/local";
 import EditProfileModal from "@/components/modals/EditProfileModal";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import CommentModal from "@/components/modals/CommentModal";
 
 const queryClient = new QueryClient();
 const twitter = localFont({ src: "../public/fonts/Twitter.woff2" });
@@ -27,6 +28,7 @@ export default function App({
           <SignInModal />
           <RegisterModal />
           <EditProfileModal />
+          <CommentModal/>
           <Toaster />
           <Layout>
             <Component {...pageProps} />

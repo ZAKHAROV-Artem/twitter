@@ -11,20 +11,17 @@ export default async function handler(
   }
 
   try {
-    const { username }: any = req.query;
+    const { postId }: any = req.query;
 
-    if (!username) throw ApiError.badRequest("Can't get user by username :(");
+    if (!postId) throw ApiError.badRequest("Can't get post without it's id :(");
 
-    const posts = await prisma?.post.findMany({
+    const post = await prisma?.post.findUnique({
       where: {
-        username,
+        id: postId,
       },
-      orderBy:{
-        createdAt:"desc"
-      }
     });
 
-    return res.status(200).json(posts);
+    return res.status(200).json(post);
   } catch (error) {
     handleError(error, res);
   }

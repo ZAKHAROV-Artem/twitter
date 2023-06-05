@@ -1,16 +1,15 @@
 import Avatar from "@/components/data-display/Avatar";
 import useUser from "@/hooks/useUser";
 import getMonthName from "@/utils/getDate";
-import { Post } from "@prisma/client";
+import { Comment as CommentType } from "@prisma/client";
 import Image from "next/image";
-import PostActions from "./PostActions";
 
-interface PostProps {
-  post: Post;
+interface CommentProps {
+  comment: CommentType;
 }
-export default function Post({ post }: PostProps) {
-  const { user } = useUser(post.username);
-  const date = new Date(post.createdAt as Date);
+export default function Comment({ comment }: CommentProps) {
+  const { user } = useUser(comment.username);
+  const date = new Date(comment.createdAt as Date);
   return (
     <div className="border-y border-y-neutral-800 hover:bg-app-gray-dark/40 duration-200 ">
       <div className="flex  gap-x-3  p-3 text-white">
@@ -30,19 +29,11 @@ export default function Post({ post }: PostProps) {
               date.getMonth()
             )} ${date.getDate()}`}</span>
           </div>
-          <div>{post.body}</div>
-          {post.image && (
-            <Image
-              className="mt-2 rounded-xl object-cover"
-              width={1600}
-              height={900}
-              src={post.image}
-              alt="post"
-            />
-          )}
+          <div>{comment.body}</div>
+         
         </div>
       </div>
-      <PostActions post={post}/>
+    
     </div>
   );
 }

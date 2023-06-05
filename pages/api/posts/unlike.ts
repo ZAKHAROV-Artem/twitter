@@ -15,7 +15,7 @@ export default async function handler(
     const currentUser = await serverAuth(req, res);
     const { postId } = req.body;
 
-    if (!postId) throw ApiError.badRequest("Can't like this post :(");
+    if (!postId) throw ApiError.badRequest("Can't unlike this post :(");
     const post = await prisma?.post.findUnique({ where: { id: postId } });
     if (!post) throw ApiError.badRequest("Post not exixt :(");
     const postUpdated = await prisma?.post.update({
@@ -23,7 +23,7 @@ export default async function handler(
         id: postId,
       },
       data: {
-        likedIds: [...post.likedIds, currentUser?.id as string],
+        likedIds: post.likedIds.filter((id) => id !== currentUser?.id),
       },
     });
 
