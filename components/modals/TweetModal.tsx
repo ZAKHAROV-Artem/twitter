@@ -70,7 +70,7 @@ export default function TweetModal({}: TweetModalProps) {
           />
           {formik.values.image && (
             <Image
-              className="mt-2 max-h-[600px] w-full rounded-xl object-cover"
+              className="mt-2 max-h-[450px] w-fit rounded-xl object-cover"
               width={1600}
               height={900}
               src={formik.values.image}

@@ -13,17 +13,18 @@ export default function Comments() {
   const router = useRouter();
   const { data,isSuccess} = useComments(router.query.postId as string);
   const { toggleModal } = useCommentModal();
-  const post = usePost(router.query.postId as string)
-  if (!router.query.postId) return <NotFound />;
+  const {data:post,isError} = usePost(router.query.postId as string)
+  if (!router.query.postId || isError) return <NotFound />;
+
   return (
     <div>
       <ArrowBack/>
-      {isSuccess&&<Post post={post.data?.data as PostType}/>}
+      {isSuccess&&<Post post={post?.data as PostType}/>}
       <div className="flex justify-between my-2 items-center mx-1">
       <div className="text-white text-xl ">Comments {data?.data.length}</div>
       <Button
         text="Write comment"
-        onClick={() => toggleModal(router.query.postId as string)}
+        onClick={() => toggleModal(post?.data.id, post?.data.username)}
       /></div>
       <div>
         {data?.data.map((comment) => (

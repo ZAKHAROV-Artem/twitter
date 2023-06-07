@@ -10,6 +10,7 @@ import { User } from "@prisma/client";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import getMonthName from "@/utils/getDate";
 import useFollow from "@/hooks/useFollow";
+import useNotificationCreate from "@/hooks/useNotificationCreate";
 
 function extractRootDomain(url: string) {
   var a = document.createElement("a");
@@ -22,11 +23,14 @@ export default function ProfileHeader({ user }: { user: User | undefined }) {
   const date = new Date(user?.createdAt as Date);
   const toggleModal = useEditProfileModal((state) => state.toggleModal);
   const { isFollowing, follow, unFollow } = useFollow(user?.username as string);
+
+  const {mutateAsync} = useNotificationCreate();
   const handleFollow = async()=>{
     if(isFollowing){
       await unFollow.mutateAsync(user?.id as string)
     }else{
       await follow.mutateAsync(user?.id as string)
+      await mutateAsync({type:"follow",username:user?.username as string})
     }
   }
   return (

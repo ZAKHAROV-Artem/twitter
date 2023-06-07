@@ -7,7 +7,7 @@ const useCurrentUser = () => {
   const query = useQuery({
     queryFn: fetchCurrentUser,
     queryKey: ["current user"],
-    refetchInterval: 10000,
+    refetchInterval:10000,
     onSuccess: (data) => {
       if (!data.data.infoProvided) provideInfoModal.openModal();
     },

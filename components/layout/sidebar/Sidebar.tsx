@@ -7,6 +7,7 @@ import SidebarUser from "./SidebarUser";
 import { signOut } from "next-auth/react";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { AiOutlineUser } from "react-icons/ai";
+import SideBarNotifications from "./SideBarNotifications";
 
 export default function Sidebar() {
   const { user, isSuccess } = useCurrentUser();
@@ -20,7 +21,7 @@ export default function Sidebar() {
               {menuAuthRoutes.map(({ name, path, icon }) => (
                 <SideBarItem name={name} path={path} icon={icon} key={path} />
               ))}
-
+              <SideBarNotifications/>
               <SideBarItem
                 name={"Profile"}
                 path={`/profile/${user.username}`}

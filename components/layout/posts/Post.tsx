@@ -4,6 +4,7 @@ import getMonthName from "@/utils/getDate";
 import { Post } from "@prisma/client";
 import Image from "next/image";
 import PostActions from "./PostActions";
+import NotFound from "@/pages/404";
 
 interface PostProps {
   post: Post;
@@ -12,7 +13,7 @@ export default function Post({ post }: PostProps) {
   const { user } = useUser(post.username);
   const date = new Date(post.createdAt as Date);
   return (
-    <div className="border-y border-y-neutral-800 hover:bg-app-gray-dark/40 duration-200 ">
+    <div className="border-y border-y-neutral-800 duration-200 hover:bg-app-gray-dark/40 ">
       <div className="flex  gap-x-3  p-3 text-white">
         <Avatar
           src={user?.profileImage || user?.image || ""}
@@ -33,7 +34,7 @@ export default function Post({ post }: PostProps) {
           <div className="break-all">{post.body}</div>
           {post.image && (
             <Image
-              className="mt-2 max-h-[600px] rounded-xl object-cover"
+              className="mt-2 max-h-[600px] w-fit rounded-xl object-cover"
               width={1600}
               height={900}
               src={post.image}
@@ -42,7 +43,7 @@ export default function Post({ post }: PostProps) {
           )}
         </div>
       </div>
-      <PostActions post={post}/>
+      <PostActions post={post} />
     </div>
   );
 }

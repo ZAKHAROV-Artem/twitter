@@ -2,16 +2,13 @@ import useCurrentUser from "@/hooks/useCurrentUser";
 import SuggestBar from "./layout/SuggestBar";
 import AuthBar from "./layout/footer/AuthBar";
 import Sidebar from "./layout/sidebar/Sidebar";
-import useEditProfileModal from "@/state/EditProfileModalState";
-import { useEffect } from "react";
 
 interface Layout {
   children: JSX.Element;
 }
 export default function Layout({ children }: Layout) {
   const { user, isSuccess, } = useCurrentUser();
-  
-
+ 
   return (
     <div className="h-screen bg-black">
       <div className="xl:px-30 container mx-auto h-full max-w-6xl">

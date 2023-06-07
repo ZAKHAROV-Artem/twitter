@@ -1,9 +1,6 @@
 import { IconType } from "react-icons";
 import {
-  AiOutlineTwitter,
   AiFillHome,
-  AiFillBell,
-  AiOutlineUser,
 } from "react-icons/ai";
 
 interface Route {
@@ -22,7 +19,6 @@ export const menuAuthRoutes: Route[] = [
     path: HOME,
     icon: AiFillHome,
   },
-  { name: "Notifications", path: NOTIFICATIONS, icon: AiFillBell },
  
 ];
 

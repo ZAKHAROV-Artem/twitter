@@ -1,5 +1,7 @@
 import useCurrentUser from "@/hooks/useCurrentUser";
 import useLikePost from "@/hooks/useLikePost";
+import useNotificationCreate from "@/hooks/useNotificationCreate";
+import useNotifications from "@/hooks/useNotifications";
 import useUser from "@/hooks/useUser";
 import useCommentModal from "@/state/CommentModalState";
 import { Comment, Post } from "@prisma/client";
@@ -12,11 +14,14 @@ interface PostActionsProps {
 }
 export default function PostActions({ post }: PostActionsProps) {
   const { isLiked, like, unlike } = useLikePost(post);
+  const {mutateAsync} = useNotificationCreate();
+
   const handleLike = async () => {
     if (isLiked) {
       await unlike.mutateAsync(post.id);
     } else {
       await like.mutateAsync(post.id);
+      await mutateAsync({type:"like",postId:post.id,username:post.username})
     }
   };
   return (

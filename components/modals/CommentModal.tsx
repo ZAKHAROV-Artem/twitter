@@ -16,12 +16,14 @@ import useCurrentUser from "@/hooks/useCurrentUser";
 import useCommentModal from "@/state/CommentModalState";
 import commentFormValidationSchema from "@/validation/CommentFormSchema";
 import useCreateComment from "@/hooks/useCreateComment";
+import useNotificationCreate from "@/hooks/useNotificationCreate";
 
 export default function CommentModal() {
   const { user } = useCurrentUser();
   const comModal = useCommentModal();
   const [loading, setLoading] = useState<boolean>(false);
   const { mutateAsync } = useCreateComment(comModal.postId);
+  const {mutateAsync:notify} = useNotificationCreate();
   const formik = useFormik({
     initialValues: {
       body: "",
@@ -46,6 +48,7 @@ export default function CommentModal() {
           setLoading(false);
           actions.resetForm();
         });
+        await notify({type:"comment",postId:comModal.postId,username:comModal.username})
     },
   });
 
