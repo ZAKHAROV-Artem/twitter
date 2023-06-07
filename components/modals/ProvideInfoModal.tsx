@@ -6,10 +6,11 @@ import toast from "react-hot-toast";
 import Divider from "../data-display/Divider";
 import Button from "../inputs/Button";
 import useCurrentUser from "@/hooks/useCurrentUser";
-import useProvideInfoModal from "@/state/ProvideInfoModal";
+import useProvideInfoModal from "@/state/ProvideInfoModalState";
 import useProvideInfo from "@/hooks/useProvideInfo";
 import Input from "../inputs/Input";
 import provideInfoFormValidationSchema from "@/validation/ProvideInfoFormSchema copy";
+import useUserExist from "@/hooks/useUserExist";
 
 export default function ProvideInfoModal() {
   const { user } = useCurrentUser();
@@ -43,6 +44,9 @@ export default function ProvideInfoModal() {
     },
   });
 
+  const {isExist} = useUserExist(formik.values.username)
+
+
   const body: JSX.Element = (
     <div className="w-full">
       <div className="my-3 text-2xl font-bold">Provide required data</div>
@@ -58,7 +62,7 @@ export default function ProvideInfoModal() {
           value={formik.values.username}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          error={(formik.touched.username && formik.errors.username) || ""}
+          error={(formik.touched.username && formik.errors.username) || isExist && "Username already taken" || ""}
         />
       </div>
       <Divider className="my-2" />
@@ -68,7 +72,7 @@ export default function ProvideInfoModal() {
             formik.validateForm();
             formik.handleSubmit();
           }}
-          disabled={!formik.isValid}
+          disabled={!formik.isValid || isExist}
           text="Save profile"
           variant="filled"
         />
