@@ -3,6 +3,7 @@ import { VscClose } from "react-icons/vsc";
 import Spinner from "../feedback/Spinner";
 
 interface ModalProps {
+  canClose?: boolean;
   body: JSX.Element;
   loading?: boolean;
   toggleModal: () => void;
@@ -10,6 +11,7 @@ interface ModalProps {
   isOpen: boolean;
 }
 export default function Modal({
+  canClose,
   body,
   toggleModal,
   isOpen,
@@ -36,7 +38,7 @@ export default function Modal({
   return (
     <div className="fixed left-0 top-0 z-50 h-screen w-screen">
       <div
-        onClick={(e) => !loading&&handleClose(e)}
+        onClick={(e) => !loading && handleClose(e)}
         className={`absolute h-screen w-screen ${
           showModal ? "bg-modal" : "bg-modal/0"
         } duration-300`}
@@ -49,12 +51,14 @@ export default function Modal({
       >
         <div>
           {/* === HEADER === */}
-          <div
-            className="mb-5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-gray-300/20"
-            onClick={handleClose}
-          >
-            <VscClose color="white" size={25} />
-          </div>
+          {canClose!==false && (
+            <div
+              className="mb-5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-gray-300/20"
+              onClick={handleClose}
+            >
+              <VscClose color="white" size={25} />
+            </div>
+          )}
           {/* === MAIN === */}
           <div className="text-white">{body}</div>
           {loading && (

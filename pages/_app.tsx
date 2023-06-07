@@ -12,6 +12,7 @@ import EditProfileModal from "@/components/modals/EditProfileModal";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import CommentModal from "@/components/modals/CommentModal";
+import ProvideInfoModal from './../components/modals/ProvideInfoModal';
 
 const queryClient = new QueryClient();
 const twitter = localFont({ src: "../public/fonts/Twitter.woff2" });
@@ -19,6 +20,7 @@ export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
+  
   return (
     <div className={twitter.className}>
       <SessionProvider session={session}>
@@ -30,6 +32,7 @@ export default function App({
           <EditProfileModal />
           <CommentModal/>
           <Toaster />
+          <ProvideInfoModal/>
           <Layout>
             <Component {...pageProps} />
           </Layout>

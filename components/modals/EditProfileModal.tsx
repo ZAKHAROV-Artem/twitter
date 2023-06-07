@@ -128,7 +128,7 @@ export default function EditProfileModal() {
           type="text"
           name="name"
           id="name"
-          placeholder="Name"
+          placeholder="Name *"
           value={formik.values.name}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}

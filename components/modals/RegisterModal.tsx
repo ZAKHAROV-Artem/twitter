@@ -33,6 +33,7 @@ export default function RegisterModal() {
           signIn("credentials", {
             email: values.email,
             password: values.password,
+            redirect: false,
           });
         })
         .catch((error) => {
@@ -99,7 +100,7 @@ export default function RegisterModal() {
         </div>
         <div className="flex justify-end">
           <Button
-            onClick={()=>formik.handleSubmit()}
+            onClick={() => formik.handleSubmit()}
             disabled={!formik.isValid}
             text="Create"
             variant="filled"

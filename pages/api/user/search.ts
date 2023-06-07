@@ -12,7 +12,7 @@ export default async function handler(
   try {
     const {query} = req.query;
 
-    if (!query) return [];
+    if (!query || query.length === 0) return [];
     const users = await prisma?.user.findMany({
       where:{
         username:{

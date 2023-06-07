@@ -16,7 +16,7 @@ export default function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`${className} border  w-fit rounded-3xl  px-5 py-2 duration-300 
+      className={`${className} ${disabled && "cursor-not-allowed"} border  w-fit rounded-3xl  px-5 py-2 duration-300 
 
       ${variant === "filled" && !color &&"bg-white text-black hover:bg-gray-200"}
       ${variant === "outlined" && !color && "border-white text-white hover:bg-white hover:text-black"} 

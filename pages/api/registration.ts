@@ -17,7 +17,14 @@ export default async function handler(
 
     const hashedPassword = await hash(password, 12);
     const user = await prisma.user.create({
-      data: { name, email, username, birthDate, hashedPassword },
+      data: {
+        name,
+        email,
+        username,
+        birthDate,
+        hashedPassword,
+        infoProvided: true,
+      },
     });
     return res.status(200).json(user);
   } catch (error) {

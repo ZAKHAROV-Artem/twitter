@@ -1,7 +1,4 @@
-import useDebounce from "@/hooks/useDebounce";
 import useUserSearch from "@/hooks/useUserSearch";
-import fetchSearchUsers from "@/services/user/fetchSearchUsers";
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import SearchUser from "../data-display/SearchUser";

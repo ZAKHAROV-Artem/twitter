@@ -21,12 +21,15 @@ export default function SignInModal() {
     validationSchema: loginFormValidationSchema,
     onSubmit: async (values) => {
       setLoading(true);
-      await signIn("credentials", values)
-        .then(() => {
-          toast.success("Successfully sign in!");
+      await signIn("credentials", { ...values, redirect: false })
+        .then((res) => {
+          if (res?.ok) {
+            toast.success("Successfully sign in!");
+          } else {
+            toast.error(res?.error || "");
+          }
         })
-        .catch((error) => {
-          console.log(error);
+        .finally(() => {
           setLoading(false);
         });
     },
@@ -60,7 +63,7 @@ export default function SignInModal() {
         </div>
         <div className="flex justify-end">
           <Button
-            onClick={()=>formik.handleSubmit()}
+            onClick={() => formik.handleSubmit()}
             disabled={!formik.isValid}
             text="Sign in"
             variant="filled"

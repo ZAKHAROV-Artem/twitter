@@ -1,15 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
 import fetchCurrentUser from "@/services/user/fetchCurrentUser";
-import { signOut } from "next-auth/react";
+import useProvideInfoModal from "@/state/ProvideInfoModal";
 
 const useCurrentUser = () => {
+  const provideInfoModal = useProvideInfoModal();
   const query = useQuery({
     queryFn: fetchCurrentUser,
     queryKey: ["current user"],
-    retry:false,
+    refetchInterval:10000,
+    onSuccess: (data) => {
+      if (!data.data.infoProvided) provideInfoModal.openModal();
+    },
   });
+
   return {
-    ...query, user:query.data?.data,
+    ...query,
+    user: query.data?.data,
   };
 };
 

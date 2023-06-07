@@ -4,12 +4,14 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcrypt";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/libs/prismadb";
+import ApiError from "@/error/ApiError";
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   callbacks: {},
   pages: {
     signIn: "/",
+    error: "/",
   },
   session: {
     strategy: "jwt",
@@ -18,15 +20,12 @@ export const authOptions: AuthOptions = {
   debug: process.env.NODE_ENV === "development",
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: process.env.GOOGLE_ID as string,
+      clientSecret: process.env.GOOGLE_SECRET as string,
     }),
     CredentialsProvider({
       name: "Credentials",
-      credentials: {
-        email: { label: "example@mail.com", type: "email" },
-        password: { label: "Password", type: "password" },
-      },
+      credentials: {},
       async authorize(credentials, req) {
         const { email, password } = credentials as {
           email: string;
@@ -37,12 +36,12 @@ export const authOptions: AuthOptions = {
             email,
           },
         });
-        if (!user) throw new Error("Invalid credentials");
+        if (!user) throw ApiError.badRequest("User not exist :(");
         const isCorrect = await compare(
           password,
           user.hashedPassword as string
         );
-        if (!isCorrect) throw new Error("Invalid credentials");
+        if (!isCorrect) throw ApiError.badRequest("Incorect email or password");
         return user;
       },
     }),

@@ -7,7 +7,7 @@ const registerFormValidationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email address")
     .required("Email is required"),
-  username: Yup.string()
+  username: Yup.string().min(2,"Min length is 2")
     .max(30, "Max length is 30")
     .required("Username is required"),
   birthDate: Yup.date(),

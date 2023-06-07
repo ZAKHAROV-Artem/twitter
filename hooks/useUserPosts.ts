@@ -1,16 +1,19 @@
 import fetchUserPosts from "@/services/posts/fetchUserPosts";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 const useUserPosts = (username: string) => {
-  const { data, error, isLoading, isSuccess } = useQuery({
-    queryFn: () => fetchUserPosts(username),
+  const query = useInfiniteQuery({
     queryKey: [`${username} posts`],
+    queryFn: async ({ pageParam = 1 }) => {
+      const res = await fetchUserPosts(username, pageParam);
+      return res;
+    },
+    getNextPageParam: (res, pages) => {
+      return res.data.length === 10 ? pages.length + 1 : undefined;
+    },
   });
   return {
-    data: data?.data,
-    error,
-    isLoading,
-    isSuccess,
+    ...query,
   };
 };
 

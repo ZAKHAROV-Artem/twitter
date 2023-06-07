@@ -30,10 +30,10 @@ export default function Post({ post }: PostProps) {
               date.getMonth()
             )} ${date.getDate()}`}</span>
           </div>
-          <div>{post.body}</div>
+          <div className="break-all">{post.body}</div>
           {post.image && (
             <Image
-              className="mt-2 rounded-xl object-cover"
+              className="mt-2 max-h-[600px] rounded-xl object-cover"
               width={1600}
               height={900}
               src={post.image}
