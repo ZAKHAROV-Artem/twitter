@@ -51,7 +51,7 @@ export default function ProvideInfoModal() {
     <div className="w-full">
       <div className="my-3 text-2xl font-bold">Provide required data</div>
       <div className="mb-3 text-lg font-bold">
-        if you close this window, you will be singed out
+        later you can update it in your profile
       </div>
       <div className="">
         <Input

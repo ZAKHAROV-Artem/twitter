@@ -38,7 +38,7 @@ export default function Modal({
   return (
     <div className="fixed left-0 top-0 z-50 h-screen w-screen">
       <div
-        onClick={(e) => !loading && handleClose(e)}
+        onClick={(e) => !loading && canClose!==false && handleClose(e)}
         className={`absolute h-screen w-screen ${
           showModal ? "bg-modal" : "bg-modal/0"
         } duration-300`}
