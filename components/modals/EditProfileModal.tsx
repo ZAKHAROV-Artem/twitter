@@ -27,7 +27,7 @@ export default function EditProfileModal() {
       bio: user?.bio || "",
       location: user?.location || "",
       site: user?.site || "",
-      profileImage: user?.profileImage || "",
+      profileImage: user?.profileImage || user?.image || "",
       coverImage: user?.coverImage || "",
     },
     enableReinitialize: true,
@@ -40,7 +40,7 @@ export default function EditProfileModal() {
         values.coverImage !== "" &&
         values.coverImage.startsWith("data:image/jpeg;base64")
       ) {
-        await deleteFromS3(
+        if(user?.coverImage && user?.coverImage?.length !== 0)await deleteFromS3(
           `${user?.username}/cover-image-${user?.coverImage?.split("-").at(-1)}`
         );
         await uploadToS3(
@@ -56,7 +56,7 @@ export default function EditProfileModal() {
         values.profileImage !== "" &&
         values.profileImage.startsWith("data:image/jpeg;base64")
       ) {
-        await deleteFromS3(
+        if(user?.profileImage && user.profileImage.length !== 0)await deleteFromS3(
           `${user?.username}/profile-image-${user?.profileImage
             ?.split("-")
             .at(-1)}`
