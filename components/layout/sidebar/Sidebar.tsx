@@ -1,14 +1,13 @@
 import { menuAuthRoutes, menuPublicRoutes } from "@/routes/routes";
 import SidebarLogo from "./SidebarLogo";
 import SideBarItem from "./SidebarItem";
-import { BiLogOut } from "react-icons/bi";
+import { BiLogOut, BiSearch } from "react-icons/bi";
 import SidebarTweet from "./SidebarTweet";
 import SidebarUser from "./SidebarUser";
 import { signOut } from "next-auth/react";
 import useCurrentUser from "@/hooks/useCurrentUser";
 import { AiOutlineUser } from "react-icons/ai";
 import SideBarNotifications from "./SideBarNotifications";
-
 export default function Sidebar() {
   const { user, isSuccess } = useCurrentUser();
   return (
@@ -21,12 +20,12 @@ export default function Sidebar() {
               {menuAuthRoutes.map(({ name, path, icon }) => (
                 <SideBarItem name={name} path={path} icon={icon} key={path} />
               ))}
-              <SideBarNotifications/>
+              <SideBarItem name={"Search"} path={`/search`} icon={BiSearch} />
+              <SideBarNotifications />
               <SideBarItem
                 name={"Profile"}
                 path={`/profile/${user.username}`}
                 icon={AiOutlineUser}
-                key={user.username}
               />
               <SideBarItem
                 onClick={() => signOut()}
