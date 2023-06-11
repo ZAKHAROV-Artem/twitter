@@ -14,7 +14,7 @@ export default async function handler(
 
   try {
     const currentUser = await serverAuth(req, res);
-    if (!currentUser) return;
+    if (!currentUser) return res.status(200);
     const { id } = req.body;
     const userToUnfollow = await prisma?.user.findUnique({
       where:{id}

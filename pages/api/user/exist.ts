@@ -13,8 +13,7 @@ export default async function handler(
   }
 
   try {
-    const currentUser = await serverAuth(req, res);
-    if (!currentUser) return;
+    await serverAuth(req, res);
     const { username } = req.query;
 
     if (!username)
