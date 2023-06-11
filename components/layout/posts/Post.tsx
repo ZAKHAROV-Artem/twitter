@@ -4,7 +4,6 @@ import getMonthName from "@/utils/getDate";
 import { Post } from "@prisma/client";
 import Image from "next/image";
 import PostActions from "./PostActions";
-import NotFound from "@/pages/404";
 
 interface PostProps {
   post: Post;

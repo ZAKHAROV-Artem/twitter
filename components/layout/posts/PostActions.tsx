@@ -1,12 +1,7 @@
-import useCurrentUser from "@/hooks/useCurrentUser";
 import useLikePost from "@/hooks/useLikePost";
 import useNotificationCreate from "@/hooks/useNotificationCreate";
-import useNotifications from "@/hooks/useNotifications";
-import useUser from "@/hooks/useUser";
-import useCommentModal from "@/state/CommentModalState";
-import { Comment, Post } from "@prisma/client";
+import { Post } from "@prisma/client";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { AiFillHeart, AiOutlineComment } from "react-icons/ai";
 
 interface PostActionsProps {

@@ -9,7 +9,6 @@ import tweetFormValidationSchema from "@/validation/TweetFormSchema";
 import Divider from "../data-display/Divider";
 import Button from "../inputs/Button";
 import useCreatePost from "@/hooks/useCreatePost";
-import { CiImageOn } from "react-icons/ci";
 import FileUpload from "./../inputs/FileUpload";
 import uploadToS3 from "@/services/s3/uploadToS3";
 import useCurrentUser from "@/hooks/useCurrentUser";

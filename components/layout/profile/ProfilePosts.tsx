@@ -1,7 +1,7 @@
 import useUserPosts from "@/hooks/useUserPosts";
 import { User } from "@prisma/client";
 import Post from "../posts/Post";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { InView } from "react-intersection-observer";
 
 export default function ProfilePosts({ user }: { user: User }) {
