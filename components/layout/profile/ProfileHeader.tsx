@@ -110,11 +110,11 @@ export default function ProfileHeader({ user }: { user: User | undefined }) {
         </div>
         <div className="mb-3 gap-x-4 flex font-bold text-white">
           <div>
-            <span>{user?.followingIds.length}</span>
+            <span>{user?.followingIds.length || 0}</span>
             <span className="ml-1 text-app-gray">Following</span>
           </div>
           <div>
-            <span>{user?.followersIds.length}</span>
+            <span>{user?.followersIds.length || 0}</span>
             <span className="ml-1 text-app-gray">Followers</span>
           </div>
         </div>
