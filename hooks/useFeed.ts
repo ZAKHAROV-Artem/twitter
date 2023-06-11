@@ -11,6 +11,7 @@ const useFeed = () => {
     getNextPageParam: (res, pages) => {
       return res.data.length === 10 ? pages.length + 1 : undefined;
     },
+    retry:false,
   });
 
   return query;
