@@ -21,6 +21,7 @@ export default function EditProfileModal() {
   const [loading, setLoading] = useState<boolean>(false);
   const editModal = useEditProfileModal();
   const { mutateAsync } = useUpdateProfile();
+
   const formik = useFormik({
     initialValues: {
       name: user?.name || "",
@@ -38,11 +39,20 @@ export default function EditProfileModal() {
 
       if (
         values.coverImage !== "" &&
-        values.coverImage.startsWith("data:image/jpeg;base64")
+        values.coverImage.startsWith("data:image")
       ) {
-        if(user?.coverImage && user?.coverImage?.length !== 0)await deleteFromS3(
-          `${user?.username}/cover-image-${user?.coverImage?.split("-").at(-1)}`
-        );
+        if (user?.coverImage && user?.coverImage?.length !== 0) {
+          await deleteFromS3(
+            `${user?.username}/cover-image-${user?.coverImage
+              ?.split("-")
+              .at(-1)}`
+          ).catch((error) => {
+            console.log(error)
+            toast.error("Can't delete from s3", {
+              duration: 3000,
+            });
+          });
+        }
         await uploadToS3(
           values.coverImage,
           `${user?.username}/cover-image-${Date.now()}`
@@ -52,15 +62,22 @@ export default function EditProfileModal() {
           })
           .catch((err) => console.log(err));
       }
+
       if (
         values.profileImage !== "" &&
-        values.profileImage.startsWith("data:image/jpeg;base64")
+        values.profileImage.startsWith("data:image")
       ) {
-        if(user?.profileImage && user.profileImage.length !== 0)await deleteFromS3(
-          `${user?.username}/profile-image-${user?.profileImage
-            ?.split("-")
-            .at(-1)}`
-        );
+        if (user?.profileImage && user.profileImage.length !== 0) {
+          await deleteFromS3(
+            `${user?.username}/profile-image-${user?.profileImage
+              ?.split("-")
+              .at(-1)}`
+          ).catch(() => {
+            toast.error("Can't delete from s3", {
+              duration: 3000,
+            });
+          });
+        }
         await uploadToS3(
           values.profileImage,
           `${user?.username}/profile-image-${Date.now()}`
@@ -70,10 +87,6 @@ export default function EditProfileModal() {
           })
           .catch((err) => console.log(err));
       }
-      if (values.coverImage === "")
-        await deleteFromS3(
-          `${user?.username}/cover-image-${user?.coverImage?.split("-").at(-1)}`
-        );
 
       await mutateAsync(values)
         .then(() => {

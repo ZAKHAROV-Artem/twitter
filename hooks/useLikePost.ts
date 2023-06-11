@@ -19,17 +19,15 @@ const useLikePost = (post: Post) => {
   const like = useMutation({
     mutationFn: likePost,
     onSuccess: () => {
-      queryClient.invalidateQueries(
-        [`${post.username} posts`]
-      );
+      queryClient.invalidateQueries([`${post.username} posts`]);
+      queryClient.invalidateQueries([post.id]);
     },
   });
   const unlike = useMutation({
     mutationFn: unLikePost,
-    onSuccess: (newPost) => {
-      queryClient.invalidateQueries(
-        [`${post.username} posts`]
-      );
+    onSuccess: () => {
+      queryClient.invalidateQueries([`${post.username} posts`]);
+      queryClient.invalidateQueries([post.id]);
     },
   });
   return {

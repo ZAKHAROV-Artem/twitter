@@ -24,15 +24,15 @@ export default function ProfileHeader({ user }: { user: User | undefined }) {
   const toggleModal = useEditProfileModal((state) => state.toggleModal);
   const { isFollowing, follow, unFollow } = useFollow(user?.username as string);
 
-  const {mutateAsync} = useNotificationCreate();
-  const handleFollow = async()=>{
-    if(isFollowing){
-      await unFollow.mutateAsync(user?.id as string)
-    }else{
-      await follow.mutateAsync(user?.id as string)
-      await mutateAsync({type:"follow",username:user?.username as string})
+  const { mutateAsync } = useNotificationCreate();
+  const handleFollow = async () => {
+    if (isFollowing) {
+      await unFollow.mutateAsync(user?.id as string);
+    } else {
+      await follow.mutateAsync(user?.id as string);
+      await mutateAsync({ type: "follow", username: user?.username as string });
     }
-  }
+  };
   return (
     <div>
       <Header text="Profile" />
@@ -70,7 +70,7 @@ export default function ProfileHeader({ user }: { user: User | undefined }) {
               onClick={handleFollow}
               text={isFollowing ? "Unfollow" : "Follow"}
               variant="outlined"
-              color={isFollowing ? "red":undefined}
+              color={isFollowing ? "red" : undefined}
               className="font-bold"
             />
           )}
@@ -108,12 +108,15 @@ export default function ProfileHeader({ user }: { user: User | undefined }) {
             </span>
           </div>
         </div>
-
-        <div className="mb-3">
-          <span className="font-bold text-white">
-            {user?.followingIds.length}
-          </span>
-          <span className="ml-1 text-app-gray">Following</span>
+        <div className="mb-3 gap-x-4 flex font-bold text-white">
+          <div>
+            <span>{user?.followingIds.length}</span>
+            <span className="ml-1 text-app-gray">Following</span>
+          </div>
+          <div>
+            <span>{user?.followersIds.length}</span>
+            <span className="ml-1 text-app-gray">Followers</span>
+          </div>
         </div>
       </div>
     </div>

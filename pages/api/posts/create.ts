@@ -21,6 +21,7 @@ export default async function handler(
         body,
         image,
         username: currentUser?.username as string,
+        userId: currentUser?.id as string,
       },
     });
 

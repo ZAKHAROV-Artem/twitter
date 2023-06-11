@@ -1,7 +1,8 @@
 import useNotifications from "@/hooks/useNotifications";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
 import { InView } from "react-intersection-observer";
 import Notification from "./Notification";
+import useClearNotifications from "@/hooks/useClearNotifications";
 
 export default function NotificationList() {
   const {
@@ -9,7 +10,10 @@ export default function NotificationList() {
     isFetchingNextPage,
     fetchNextPage,
   } = useNotifications();
-
+  const {mutate} = useClearNotifications();
+  useEffect(()=>{
+    mutate()
+  },[notifications]);
   const handleNextPage = async (isView: boolean) => {
     if (isView && !isFetchingNextPage) await fetchNextPage();
   };

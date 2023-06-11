@@ -2,18 +2,19 @@ import Comment from "@/components/layout/comments/Comment";
 import useComments from "@/hooks/useComments";
 import NotFound from "@/pages/404";
 import { useRouter } from "next/router";
-import Button from "./../../../components/inputs/Button";
+import Button from "../components/inputs/Button";
 import useCommentModal from "@/state/CommentModalState";
 import usePost from "@/hooks/usePost";
 import  Post  from '@/components/layout/posts/Post';
 import { Post as PostType } from "@prisma/client";
 import ArrowBack from "@/components/navigation/ArrowBack";
+import { useEffect, useState } from "react";
 
 export default function Comments() {
   const router = useRouter();
-  const { data,isSuccess} = useComments(router.query.postId as string);
+  const {data:post,isError} = usePost(router?.query?.postId as string)
+  const { data,isSuccess} = useComments(router?.query?.postId as string );
   const { toggleModal } = useCommentModal();
-  const {data:post,isError} = usePost(router.query.postId as string)
   if (!router.query.postId || isError) return <NotFound />;
 
   return (

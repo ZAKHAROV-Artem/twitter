@@ -1,5 +1,4 @@
-import fetchUserFollowings from "@/services/user/followUser";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useCurrentUser from "./useCurrentUser";
 import useUser from "./useUser";
 import { useMemo } from "react";
@@ -19,13 +18,17 @@ const useFollow = (username: string) => {
   const follow = useMutation({
     mutationFn:followUser,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [user?.username] });
       queryClient.invalidateQueries({ queryKey: ["current user"] });
+      queryClient.removeQueries({ queryKey: ["current user feed"] });
     },
   })
   const unFollow = useMutation({
     mutationFn:unFollowUser,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [user?.username] });
       queryClient.invalidateQueries({ queryKey: ["current user"] });
+      queryClient.removeQueries({ queryKey: ["current user feed"] });
     },
   })
   return {

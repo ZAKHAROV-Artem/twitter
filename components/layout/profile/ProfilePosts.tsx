@@ -13,7 +13,6 @@ export default function ProfilePosts({ user }: { user: User }) {
   } = useUserPosts(user.username as string);
 
   const handleNextPage = async (isView:boolean) => {
-    console.log(hasNextPage)
     if (isView && !isFetchingNextPage) await fetchNextPage();
   };
 

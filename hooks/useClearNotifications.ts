@@ -8,6 +8,7 @@ const useClearNotifications = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(["current user"]);
     },
+    
   });
 
   return mutation;

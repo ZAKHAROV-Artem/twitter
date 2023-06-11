@@ -38,8 +38,9 @@ export default function RegisterModal() {
         })
         .catch((error) => {
           console.log(error);
+        }).finally(()=>{
           setLoading(false);
-        });
+        })
     },
   });
   const regModal = useRegisterModal();

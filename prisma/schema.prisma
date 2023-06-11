@@ -27,6 +27,7 @@ model User {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   followingIds    String[] @db.ObjectId
+  followersIds    String[] @db.ObjectId
   hasNotification Boolean?
   infoProvided Boolean?
 
@@ -34,6 +35,8 @@ model User {
   notifications Notification[]
   accounts      Account[]
   sessions      Session[]
+
+  @@unique([username, id])
 }
 
 model Account {
@@ -68,12 +71,13 @@ model Post{
   body String
   image String
   username String
+  userId String @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   likedIds String[] @db.ObjectId
   comments Comment[]
 
-  user User @relation(fields: [username], references: [username], onDelete:Cascade)
+  user User @relation(fields: [username,userId], references: [username,id], onDelete:Cascade)
 }
 
 model Comment{

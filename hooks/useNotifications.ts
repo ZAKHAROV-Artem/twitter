@@ -8,6 +8,7 @@ const useNotifications = () => {
       const res = await fetchNotifications(pageParam);
       return res;
     },
+    refetchOnMount:true,
     getNextPageParam: (res, pages) => {
       return res.data.length === 20 ? pages.length + 1 : undefined;
     },

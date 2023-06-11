@@ -8,6 +8,6 @@ export default async function deleteFromS3(key: string) {
     Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_NAME as string,
     Key: key,
   };
-
-  await s3.deleteObject(params).promise();
+  const res = await s3.deleteObject(params).promise();
+  return res;
 }

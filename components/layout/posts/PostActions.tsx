@@ -38,7 +38,7 @@ export default function PostActions({ post }: PostActionsProps) {
         <span>Likes {post.likedIds.length}</span>
       </div>
       <Link
-        href={`${post.username}/comments?postId=${post.id}`}
+        href={`/comments?postId=${post.id}`}
         className="flex cursor-pointer items-center gap-x-1 text-app-gray  duration-200 hover:text-green-400"
       >
         <AiOutlineComment size={30} />

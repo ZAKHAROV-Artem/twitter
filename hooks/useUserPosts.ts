@@ -12,9 +12,7 @@ const useUserPosts = (username: string) => {
       return res.data.length === 10 ? pages.length + 1 : undefined;
     },
   });
-  return {
-    ...query,
-  };
+  return query;
 };
 
 export default useUserPosts;
