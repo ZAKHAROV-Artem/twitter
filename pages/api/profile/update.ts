@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import serverAuth from "@/utils/serverAuth";
-import prisma from "@/libs/prismadb";
+import {prisma} from "@/libs/prismadb";
 import ApiError from "@/error/ApiError";
 import handleError from "@/error/handleError";
 

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { hash } from "bcrypt";
-import prisma from "@/libs/prismadb";
+import {prisma} from "@/libs/prismadb";
 import handleError from "@/error/handleError";
 import ApiError from "@/error/ApiError";
 

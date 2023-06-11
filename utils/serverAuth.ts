@@ -1,9 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "@/libs/prismadb";
+import {prisma} from "@/libs/prismadb";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import ApiError from "@/error/ApiError";
-import { signOut } from "next-auth/react";
 import handleError from "@/error/handleError";
 
 export default async function serverAuth(

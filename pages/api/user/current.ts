@@ -1,8 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import serverAuth from "@/utils/serverAuth";
 import handleError from "@/error/handleError";
-import { signOut } from "next-auth/react";
-import { User } from "@prisma/client";
 
 export default async function handler(
   req: NextApiRequest,

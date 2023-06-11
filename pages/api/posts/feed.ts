@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import handleError from "@/error/handleError";
 import ApiError from "@/error/ApiError";
 import serverAuth from "@/utils/serverAuth";
+import { prisma } from "@/libs/prismadb";
 
 export default async function handler(
   req: NextApiRequest,

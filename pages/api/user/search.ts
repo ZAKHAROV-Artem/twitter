@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import handleError from "@/error/handleError";
+import { prisma } from "@/libs/prismadb";
 
 export default async function handler(
   req: NextApiRequest,
