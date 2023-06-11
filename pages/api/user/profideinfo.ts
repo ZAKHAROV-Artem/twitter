@@ -14,7 +14,7 @@ export default async function handler(
 
   try {
     const currentUser = await serverAuth(req, res);
-    if (!currentUser) return;
+    if (!currentUser) return res.status(200);
     const { username } = req.body;
     if (!username)
       throw ApiError.badRequest(

@@ -5,6 +5,17 @@ import useFeed from "@/hooks/useFeed";
 import { Fragment } from "react";
 import { InView } from "react-intersection-observer";
 import Link from "next/link";
+import requireAuth from "@/utils/requireAuth";
+import { NextPageContext } from "next";
+
+
+export async function getServerSideProps(context: NextPageContext) {
+  return requireAuth(context, async () => {
+    return {
+      props: {},
+    };
+  });
+}
 
 export default function Home() {
   const { data, isFetchingNextPage, fetchNextPage } = useFeed();

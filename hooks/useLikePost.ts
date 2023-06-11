@@ -1,9 +1,6 @@
-import fetchUserFollowings from "@/services/user/followUser";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useCurrentUser from "./useCurrentUser";
-import useUser from "./useUser";
 import { useMemo } from "react";
-import unFollowUser from "@/services/user/unFollowUser";
 import likePost from "@/services/posts/likePost";
 import unLikePost from "@/services/posts/unLikePost";
 import { Post } from "@prisma/client";

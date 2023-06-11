@@ -12,7 +12,7 @@ const useCreatePost = () => {
     },
   });
 
-  return { ...mutation };
+  return mutation;
 };
 
 export default useCreatePost;

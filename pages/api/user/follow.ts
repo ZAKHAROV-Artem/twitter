@@ -14,12 +14,12 @@ export default async function handler(
 
   try {
     const currentUser = await serverAuth(req, res);
-    if (!currentUser) return;
+    if (!currentUser) return res.status(200);
     const { id } = req.body;
     const userToFollow = await prisma?.user.findUnique({
-      where:{id}
-    })
-    if(!userToFollow)throw ApiError.badRequest("User not exists :(");
+      where: { id },
+    });
+    if (!userToFollow) throw ApiError.badRequest("User not exists :(");
     const user = await prisma?.user.update({
       where: {
         id: currentUser?.id,

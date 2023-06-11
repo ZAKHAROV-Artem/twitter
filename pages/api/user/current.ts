@@ -12,7 +12,7 @@ export default async function handler(
 
   try {
     const currentUser = await serverAuth(req, res);
-    if (!currentUser) return;
+    if (!currentUser) return res.status(200);
     const { hashedPassword, ...user } = currentUser;
     return res.status(200).json(user);
   } catch (error) {

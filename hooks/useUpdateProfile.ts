@@ -13,7 +13,7 @@ const useUpdateProfile = () => {
     },
   });
 
-  return { ...mutation };
+  return mutation;
 };
 
 export default useUpdateProfile;

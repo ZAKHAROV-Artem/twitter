@@ -1,6 +1,4 @@
-import {  useQuery, useQueryClient } from "@tanstack/react-query";
-import useCurrentUser from "./useCurrentUser";
-import createComment from "@/services/comments/createComment";
+import {  useQuery } from "@tanstack/react-query";
 import fetchComments from "@/services/comments/fetchComments";
 
 const useComments = (postId:string) => {

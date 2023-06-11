@@ -1,9 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import useCurrentUser from "./useCurrentUser";
 import createComment from "@/services/comments/createComment";
 
 const useCreateComment = (postId:string) => {
-  const {user} = useCurrentUser();
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: createComment,
@@ -12,7 +10,7 @@ const useCreateComment = (postId:string) => {
     },
   });
 
-  return { ...mutation };
+  return mutation;
 };
 
 export default useCreateComment;

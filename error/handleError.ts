@@ -6,5 +6,5 @@ export default function handleError(error: any, res: NextApiResponse) {
   if (error instanceof ApiError) {
     return res.status(error.status).json({ message: error.message });
   }
-  return res.status(500).send({ message: "Unpredicted error" });
+  return res.status(500).json({ message: "Unpredicted error" });
 }
